@@ -1,0 +1,1341 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>لوحة أداء براندات صيت</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<style>
+/* Layout: a roastery logbook — summary strip first, then one "bench" per data source, scanned right-to-left. */
+:root{
+  --bg:#F6F1EA;            /* latte paper */
+  --surface:#FFFCF8;
+  --surface-2:#EFE7DC;
+  --line:#E3D8CA;
+  --line-strong:#CDBEAC;
+  --fg:#2A1C14;            /* espresso ink */
+  --fg-2:#6B5A4D;
+  --fg-3:#9A8777;
+  --accent:#C4702A;        /* copper */
+  --accent-ink:#8F4D14;
+  --accent-soft:#F3DFC9;
+  --series-1:#C4702A;
+  --series-2:#2a78d6;
+  --series-3:#1baf7a;
+  --series-4:#a8459e;
+  --ord-1:#E39A55; --ord-2:#D08038; --ord-3:#B96A22; --ord-4:#9A5417; --ord-5:#7A4010;
+  --good:#1E7F3A; --good-soft:#DDF1E2;
+  --warn:#B4680A; --warn-soft:#F8E8CF;
+  --muted-soft:#EAE2D8;
+  --shadow:0 1px 2px rgba(42,28,20,.06),0 8px 24px rgba(42,28,20,.06);
+  --display:"Noto Kufi Arabic",system-ui,sans-serif;
+  --body:"IBM Plex Sans Arabic","Noto Kufi Arabic",system-ui,sans-serif;
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1A1411; --surface:#231B16; --surface-2:#2C231D; --line:#352A22; --line-strong:#4A3B30;
+    --fg:#F3EBE1; --fg-2:#C9B9A8; --fg-3:#8F7E6E;
+    --accent:#D98A3E; --accent-ink:#F0B978; --accent-soft:#3A2819;
+    --series-1:#C87A32; --series-2:#3987e5; --series-3:#199e70; --series-4:#c25fb8;
+    --ord-1:#F5C08C; --ord-2:#E6A463; --ord-3:#D48A45; --ord-4:#C0732C; --ord-5:#A85F1C;
+    --good:#5FCB7E; --good-soft:#1C3324; --warn:#E8A94A; --warn-soft:#3A2C14; --muted-soft:#2E2620;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.35);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1A1411; --surface:#231B16; --surface-2:#2C231D; --line:#352A22; --line-strong:#4A3B30;
+  --fg:#F3EBE1; --fg-2:#C9B9A8; --fg-3:#8F7E6E;
+  --accent:#D98A3E; --accent-ink:#F0B978; --accent-soft:#3A2819;
+  --series-1:#C87A32; --series-2:#3987e5; --series-3:#199e70; --series-4:#c25fb8;
+  --ord-1:#F5C08C; --ord-2:#E6A463; --ord-3:#D48A45; --ord-4:#C0732C; --ord-5:#A85F1C;
+  --good:#5FCB7E; --good-soft:#1C3324; --warn:#E8A94A; --warn-soft:#3A2C14; --muted-soft:#2E2620;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.35);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.6;margin:0}
+.page{direction:rtl;max-width:1180px;margin-inline:auto;padding-inline:clamp(16px,3vw,32px);padding-block:20px 56px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.3}
+h1{font-size:clamp(26px,3.4vw,40px);font-weight:800}
+h2{font-size:clamp(20px,2.2vw,26px);font-weight:700}
+h3{font-size:16px;font-weight:700}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);font-weight:600}
+
+/* header */
+.hero{display:grid;grid-template-columns:1fr;gap:16px;padding-block:12px 24px;border-bottom:1px solid var(--line)}
+.hero p.lead{color:var(--fg-2);max-width:60ch;margin-top:8px}
+.periods{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-start}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-size:13px;color:var(--fg-2);white-space:nowrap}
+.chip b{color:var(--fg);font-weight:600}
+.chip .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:4px;overflow-x:auto;padding-block:10px;margin-block:0 22px;border-bottom:1px solid var(--line);scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:0 0 auto;text-decoration:none;color:var(--fg-2);padding:8px 14px;border-radius:10px;font-weight:500;font-size:14px}
+.nav a:hover,.nav a:focus-visible{background:var(--surface-2);color:var(--fg);outline:none}
+.nav a.active{background:var(--fg);color:var(--bg)}
+
+section{margin-block:0 40px;scroll-margin-top:70px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px;margin-bottom:16px}
+.sec-head p{color:var(--fg-2);font-size:14px}
+
+/* kpi tiles */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.kpi .l{font-size:12.5px;color:var(--fg-2);font-weight:500}
+.kpi .v{font-family:var(--display);font-size:26px;font-weight:700;line-height:1.2}
+.kpi .v small{font-size:13px;color:var(--fg-3);font-weight:500;margin-inline-start:4px}
+.kpi .s{font-size:12px;color:var(--fg-3)}
+.kpi.hero-kpi{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.kpi.hero-kpi .l,.kpi.hero-kpi .s{color:color-mix(in srgb,var(--bg) 70%,transparent)}
+.kpi.hero-kpi .v small{color:color-mix(in srgb,var(--bg) 60%,transparent)}
+.kpi .spark{height:4px;border-radius:2px;background:var(--surface-2);overflow:hidden;margin-top:6px}
+.kpi .spark i{display:block;height:100%;background:var(--accent);border-radius:2px}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;min-width:0}
+.card-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.card-head p{font-size:13px;color:var(--fg-2)}
+.grid-2{display:grid;grid-template-columns:1.5fr 1fr;gap:14px}
+.grid-2eq{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:820px){.grid-2,.grid-2eq{grid-template-columns:1fr}.hero{grid-template-columns:1fr}}
+
+/* segmented control */
+.seg{display:inline-flex;flex-wrap:wrap;gap:4px;background:var(--surface-2);padding:4px;border-radius:10px}
+.seg button{border:0;background:transparent;color:var(--fg-2);font:inherit;font-size:13px;font-weight:500;padding:6px 12px;border-radius:7px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+/* svg charts */
+.chart{width:100%;height:auto;display:block;overflow:visible;direction:ltr}
+.chart text{font-family:var(--body);fill:var(--fg-2);font-size:12px;font-variant-numeric:tabular-nums}
+.chart .cat{fill:var(--fg);font-weight:500}
+.chart .val{fill:var(--fg);font-weight:600}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart .axis{stroke:var(--line-strong);stroke-width:1}
+.chart .bar{fill:var(--series-1);rx:4;transition:opacity .15s}
+.chart .bar.dim{opacity:.35}
+.chart .bar.top{fill:var(--accent)}
+.chart .hit{fill:transparent;cursor:pointer}
+.chart .pt{fill:var(--series-1);stroke:var(--surface);stroke-width:2}
+.chart .ln{fill:none;stroke:var(--series-1);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.chart .area{fill:var(--series-1);opacity:.12}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--fg-2);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+
+/* tooltip */
+.tip{position:fixed;z-index:50;pointer-events:none;background:var(--fg);color:var(--bg);padding:8px 10px;border-radius:8px;font-size:12.5px;line-height:1.5;box-shadow:var(--shadow);max-width:260px;direction:rtl;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s}
+.tip.show{opacity:1;transform:none}
+.tip b{font-weight:600}
+
+/* table */
+.tbl-wrap{overflow-x:auto;margin-inline:-18px;padding-inline:18px}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:720px}
+th,td{text-align:right;padding:10px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:12px;color:var(--fg-2);font-weight:600;cursor:pointer;user-select:none;position:relative}
+th:hover{color:var(--fg)}
+th .ar{font-size:10px;color:var(--fg-3);margin-inline-start:4px}
+td.n{font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--surface-2)}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px}
+.status.done{background:var(--good-soft);color:var(--good)}
+.status.off{background:var(--warn-soft);color:var(--warn)}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.rank{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--surface-2);color:var(--fg-2);font-size:11.5px;font-weight:600}
+.rank.r1{background:var(--accent);color:#fff}
+.bar-cell{display:flex;align-items:center;gap:8px}
+.bar-cell i{height:6px;border-radius:3px;background:var(--series-1);display:block}
+
+/* timeline */
+.timeline{position:relative;padding-block:28px 40px}
+.timeline .lbl.alt{top:46px}
+.timeline .lbl.alt::before{content:"";position:absolute;right:6px;top:-30px;height:28px;border-right:1px dashed var(--line-strong)}
+.timeline .rail{height:2px;background:var(--line-strong);border-radius:1px;position:relative}
+.timeline .m{position:absolute;top:-6px;width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line-strong);transform:translateX(50%)}
+.timeline .m.off{background:var(--warn)}
+.timeline .lbl{position:absolute;top:14px;transform:translateX(50%);font-size:11.5px;color:var(--fg-2);white-space:nowrap}
+.timeline .tick{position:absolute;top:-30px;transform:translateX(50%);font-size:11px;color:var(--fg-3);white-space:nowrap}
+
+/* funnel */
+.funnel{display:flex;flex-direction:column;gap:6px}
+.stage{display:grid;grid-template-columns:150px 1fr 90px;gap:12px;align-items:center}
+.stage .name{font-size:13.5px;font-weight:500}
+.stage .name small{display:block;color:var(--fg-3);font-size:11.5px;font-weight:400}
+.stage .track{height:34px;display:flex;justify-content:flex-start}
+.stage .fill{height:100%;border-radius:6px;min-width:4px;transition:width .6s cubic-bezier(.2,.7,.2,1)}
+.stage .cnt{font-family:var(--display);font-weight:700;font-size:16px;text-align:left}
+.step{display:grid;grid-template-columns:150px 1fr 90px;gap:12px;align-items:center;height:18px}
+.step .arrow{font-size:11.5px;color:var(--fg-2);display:flex;align-items:center;gap:6px}
+.step .arrow b{color:var(--fg);font-weight:600}
+.step .arrow.low b{color:var(--warn)}
+@media (max-width:520px){.stage,.step{grid-template-columns:110px 1fr 70px}.stage .name{font-size:12.5px}}
+
+/* meter */
+.meter{display:flex;height:14px;border-radius:7px;overflow:hidden;gap:2px;background:var(--surface-2)}
+.meter i{display:block;height:100%}
+.meter-lbl{display:flex;justify-content:space-between;font-size:12.5px;color:var(--fg-2);margin-top:8px}
+.meter-lbl b{color:var(--fg)}
+
+/* zid detail */
+.grid-3{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:14px;margin-top:14px}
+@media (max-width:900px){.grid-3{grid-template-columns:1fr}}
+.prod{display:flex;flex-direction:column;gap:9px}
+.prod .r{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:13px;align-items:center}
+.prod .r .nm{font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prod .r .nm small{color:var(--fg-3);font-weight:400;margin-inline-start:6px}
+.prod .r .b{grid-column:1/-1;height:9px;background:var(--surface-2);border-radius:5px;overflow:hidden}
+.prod .r .b i{display:block;height:100%;background:var(--series-1);border-radius:5px}
+.prod .r .n{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.prod .r .n small{color:var(--fg-3);font-weight:400}
+.status-row{display:flex;gap:10px;flex-wrap:wrap}
+.status-row div{flex:1 1 90px;background:var(--surface-2);border-radius:10px;padding:10px 12px;min-width:0}
+.status-row .l{font-size:11.5px;color:var(--fg-2);display:block}
+.status-row .v{font-family:var(--display);font-weight:700;font-size:20px;display:block}
+.status-row .v small{font-size:11px;color:var(--fg-3);font-weight:500;margin-inline-start:3px}
+table.sm{min-width:0;font-size:13px}
+table.sm th,table.sm td{padding:7px 8px}
+
+/* plans */
+.plan{display:flex;flex-direction:column;gap:14px}
+.plan .brand{display:flex;align-items:center;gap:10px}
+.plan .brand .mark{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-family:var(--display);font-weight:800;color:#fff;background:var(--accent)}
+.plan .brand .mark.alt{background:var(--fg);color:var(--bg)}
+.plan .brand small{display:block;color:var(--fg-3);font-size:12px}
+.plan dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:13.5px}
+.plan dt{color:var(--fg-3);font-size:12.5px;white-space:nowrap}
+.plan dd{margin:0}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12.5px;padding:4px 10px;border-radius:8px;background:var(--surface-2);color:var(--fg)}
+.tag.acc{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+.infl{display:flex;flex-direction:column;gap:8px}
+.infl .row{display:grid;grid-template-columns:150px 1fr auto;align-items:center;gap:10px;font-size:13px}
+.infl .row .h{font-weight:500}
+.infl .row .h small{display:block;color:var(--fg-3);font-size:11.5px;direction:ltr;text-align:right;font-family:var(--body)}
+.infl .row .bar{height:10px;background:var(--surface-2);border-radius:5px;overflow:hidden}
+.infl .row .bar i{display:block;height:100%;background:var(--series-1);border-radius:5px}
+.infl .row .bar i.rng{background:var(--accent-soft)}
+.infl .row .p{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.sumline{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:10px;font-size:13.5px}
+.sumline b{font-family:var(--display)}
+@media (max-width:520px){.infl .row{grid-template-columns:120px 1fr auto}}
+
+/* social */
+.soc{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:820px){.soc{grid-template-columns:1fr}}
+.soc .card .brand{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.soc .mark{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-family:var(--display);font-weight:800;color:#fff;background:var(--accent)}
+.soc .mark.alt{background:var(--fg);color:var(--bg)}
+.soc .handle{font-size:12px;color:var(--fg-3);direction:ltr;text-align:right;display:block}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.mini div{background:var(--surface-2);border-radius:10px;padding:10px 12px;min-width:0}
+.mini .l{font-size:11.5px;color:var(--fg-2);display:block}
+.mini .v{font-family:var(--display);font-weight:700;font-size:20px;display:block}
+.mini .v small{font-size:11px;color:var(--fg-3);font-weight:500}
+.hbars{display:flex;flex-direction:column;gap:7px}
+.hbars .r{display:grid;grid-template-columns:92px 1fr 64px;gap:10px;align-items:center;font-size:13px}
+.hbars .r .b{height:9px;background:var(--surface-2);border-radius:5px;overflow:hidden}
+.hbars .r .b i{display:block;height:100%;border-radius:5px;background:var(--series-1)}
+.hbars .r .b i.o{background:var(--series-2)}
+.hbars .r .n{text-align:left;font-variant-numeric:tabular-nums;font-weight:600}
+.hbars .r .n small{color:var(--fg-3);font-weight:400}
+.demo{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:14px}
+@media (max-width:820px){.demo{grid-template-columns:1fr}}
+.demo h3{font-size:14px;margin-bottom:10px}
+.gender{display:flex;height:16px;border-radius:8px;overflow:hidden;gap:2px}
+.gender i{display:block;height:100%}
+.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.sw{border-radius:10px;padding:10px;min-height:76px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line)}
+.sw b{font-size:12.5px;font-weight:600}
+.sw span{font-size:11px;direction:ltr;text-align:right;opacity:.85;font-variant-numeric:tabular-nums}
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pillar{background:var(--surface-2);border-radius:10px;padding:10px 12px;font-size:13px}
+.pillar b{display:block;font-family:var(--display);font-size:13px;margin-bottom:2px}
+.budget{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.budget div{background:var(--surface-2);border-radius:10px;padding:8px 10px;text-align:center;font-size:12.5px}
+.budget div b{display:block;font-family:var(--display);font-size:14px}
+@media (max-width:520px){.budget,.swatches{grid-template-columns:1fr 1fr}.mini{grid-template-columns:1fr 1fr}}
+.grid-4{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media (max-width:820px){.grid-4{grid-template-columns:1fr}}
+
+/* wekad campaigns */
+.sb{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media (max-width:1060px){.sb{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.sb{grid-template-columns:1fr}}
+.sbc{display:flex;flex-direction:column;gap:10px;padding:18px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(160deg,color-mix(in srgb,var(--c) 14%,var(--surface)) 0%,var(--surface) 60%);text-decoration:none;color:inherit;min-width:0;transition:transform .15s,box-shadow .15s}
+.sbc:hover,.sbc:focus-visible{transform:translateY(-2px);box-shadow:var(--shadow);outline:none}
+.sbc .meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--fg-2);font-weight:500}
+.sbc .meta i{width:10px;height:10px;border-radius:3px;background:var(--c);flex:none}
+.sbc h3{font-size:20px;font-weight:800}
+.sbc .slogan{font-size:13px;color:var(--fg-2)}
+.sbc .big{font-family:var(--display);font-size:clamp(30px,3.4vw,40px);font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.sbc .big-l{font-size:12.5px;color:var(--fg-2)}
+.sbc .row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid var(--line);padding-top:10px}
+.verdict{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--fg);color:var(--bg);white-space:nowrap}
+.verdict::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c)}
+.wins{display:flex;flex-direction:column;gap:4px;font-size:11.5px;color:var(--fg-2)}
+.wins .dots{display:flex;gap:3px}
+.wins .dots i{width:9px;height:9px;border-radius:2px;background:var(--surface-2);border:1px solid var(--line)}
+.wins .dots i.on{background:var(--c);border-color:var(--c)}
+.delta{display:inline-flex;align-items:center;gap:3px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.delta.up{background:var(--good-soft);color:var(--good)}
+.delta.down{background:var(--warn-soft);color:var(--warn)}
+.scroll-x{overflow-x:auto;margin-inline:-18px;padding-inline:18px}
+.scroll-x .chart{min-width:660px}
+.chart .ghost{opacity:.3}
+.chart .ev{stroke:var(--fg-3);stroke-width:1}
+.chart .evl{fill:var(--fg);font-weight:600;font-size:12px}
+.chart .nm{fill:var(--fg);font-weight:600;font-size:12.5px}
+.chart .sub{fill:var(--fg-3);font-size:11px}
+.vs{width:100%;border-collapse:separate;border-spacing:0;min-width:640px;font-size:13.5px}
+.vs th,.vs td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap;vertical-align:middle}
+.vs thead th{font-size:13px;color:var(--fg);font-weight:700;cursor:default;border-bottom:1px solid var(--line-strong)}
+.vs thead th small{display:block;font-size:11px;color:var(--fg-3);font-weight:400}
+.vs thead th i{display:inline-block;width:9px;height:9px;border-radius:3px;background:var(--c);margin-inline-end:6px}
+.vs tbody th{font-weight:500;color:var(--fg-2);font-size:13px;cursor:default}
+.vs tr.grp th{font-size:11.5px;font-weight:700;color:var(--accent-ink);letter-spacing:.04em;padding-top:16px;border-bottom:0}
+.vs td{width:24%}
+.vs .vc{display:flex;flex-direction:column;gap:5px}
+.vs .vv{font-variant-numeric:tabular-nums;font-weight:600;display:flex;align-items:center;gap:6px}
+.vs .vb{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+.vs .vb i{display:block;height:100%;border-radius:3px;background:var(--c)}
+.vs td.win{background:color-mix(in srgb,var(--c) 11%,transparent)}
+.vs td.win .vv::after{content:"الأعلى";font-size:10.5px;font-weight:600;color:var(--fg);background:var(--surface);border:1px solid var(--line-strong);padding:0 6px;border-radius:999px}
+.vs td.neg .vv{color:var(--warn)}
+.vs tr.ctx td,.vs tr.ctx th{color:var(--fg-3);border-bottom:0}
+.dossier{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:18px;scroll-margin-top:70px}
+.dz-head{display:grid;grid-template-columns:1fr auto;gap:12px 20px;align-items:start;padding:20px;background:color-mix(in srgb,var(--c) 12%,var(--surface));border-bottom:1px solid var(--line)}
+@media (max-width:640px){.dz-head{grid-template-columns:1fr}}
+.dz-no{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--fg-2)}
+.dz-no i{width:10px;height:10px;border-radius:3px;background:var(--c)}
+.dz-title{font-size:clamp(22px,2.8vw,32px);font-weight:800;margin-top:4px}
+.dz-title span{font-weight:500;color:var(--fg-2);font-size:.62em;margin-inline-start:8px}
+.dz-story{margin-top:8px;font-size:15px;max-width:68ch;color:var(--fg)}
+.dz-hero{text-align:left;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+@media (max-width:640px){.dz-hero{align-items:flex-start;text-align:right}}
+.dz-hero .big{font-family:var(--display);font-size:clamp(34px,4vw,48px);font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.dz-hero .big-l{font-size:12.5px;color:var(--fg-2)}
+.dz-stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line)}
+@media (max-width:760px){.dz-stats{grid-template-columns:1fr 1fr}}
+.dz-stats>div{padding:14px 18px;display:flex;flex-direction:column;gap:4px;border-inline-start:1px solid var(--line);min-width:0}
+.dz-stats>div:first-child{border-inline-start:0}
+.dz-stats .l{font-size:12px;color:var(--fg-2)}
+.dz-stats .v{font-family:var(--display);font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2}
+.dz-stats .v small{font-size:12px;color:var(--fg-3);font-weight:500;margin-inline-start:3px}
+.dz-body{display:grid;grid-template-columns:1fr 1.15fr;gap:0}
+@media (max-width:820px){.dz-body{grid-template-columns:1fr}}
+.dz-body>div{padding:18px;min-width:0}
+.dz-body>div+div{border-inline-start:1px solid var(--line)}
+@media (max-width:820px){.dz-body>div+div{border-inline-start:0;border-top:1px solid var(--line)}}
+.dz-h{font-family:var(--display);font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dz-h small{font-family:var(--body);font-weight:400;font-size:11.5px;color:var(--fg-3)}
+.exec{display:flex;flex-direction:column;gap:10px;list-style:none;margin:0;padding:0}
+.exec li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;font-size:13.5px}
+.exec li small{display:block;color:var(--fg-3);font-size:12px}
+.st{font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;white-space:nowrap;margin-top:2px}
+.st.done{background:var(--good-soft);color:var(--good)}
+.st.issue{background:var(--warn-soft);color:var(--warn)}
+.st.plan{background:var(--surface-2);color:var(--fg-2)}
+.ba{display:flex;flex-direction:column;gap:12px}
+.ba-row{display:grid;grid-template-columns:96px 1fr 104px;gap:10px;align-items:center;font-size:13px}
+.ba-bars{display:flex;flex-direction:column;gap:3px}
+.ba-bars i{display:block;height:8px;border-radius:4px;min-width:2px}
+.ba-bars i.prev{background:var(--line-strong)}
+.ba-bars i.cur{background:var(--c)}
+.ba-v{display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-variant-numeric:tabular-nums}
+.ba-v b{font-weight:700;font-size:14px;display:flex;align-items:center;gap:6px}
+.ba-v small{color:var(--fg-3);font-size:11px}
+.ba-key{display:flex;gap:14px;font-size:11.5px;color:var(--fg-2);margin-top:12px}
+.ba-key span{display:inline-flex;align-items:center;gap:6px}
+.ba-key i{width:14px;height:6px;border-radius:3px;display:inline-block}
+@media (max-width:520px){.ba-row{grid-template-columns:76px 1fr 92px}}
+.dz-infl{border-top:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:14px}
+.dz-lessons{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+@media (max-width:820px){.dz-lessons{grid-template-columns:1fr}}
+.dz-lessons>div{padding:18px;min-width:0}
+.dz-lessons>div+div{border-inline-start:1px solid var(--line)}
+@media (max-width:820px){.dz-lessons>div+div{border-inline-start:0;border-top:1px solid var(--line)}}
+.dz-lessons h4{margin:0 0 10px;font-family:var(--display);font-size:14px;display:flex;align-items:center;gap:8px}
+.dz-lessons h4 b{width:22px;height:22px;border-radius:7px;display:inline-grid;place-items:center;font-size:12px}
+.dz-lessons .ok h4 b{background:var(--good-soft);color:var(--good)}
+.dz-lessons .bad h4 b{background:var(--warn-soft);color:var(--warn)}
+.dz-lessons .nx h4 b{background:var(--fg);color:var(--bg)}
+.dz-lessons ul{margin:0;padding-inline-start:16px;display:flex;flex-direction:column;gap:7px;font-size:13.5px;color:var(--fg-2)}
+.dz-lessons ul li::marker{color:var(--fg-3)}
+.ig-cmp{display:flex;flex-direction:column;gap:10px}
+.ig-cmp .r{display:grid;grid-template-columns:110px 1fr 64px;gap:10px;align-items:center;font-size:13px}
+.ig-cmp .bars{display:flex;flex-direction:column;gap:3px}
+.ig-cmp .bars i{display:block;height:8px;border-radius:4px;min-width:2px}
+.ig-cmp .bars i.a{background:var(--series-1)}
+.ig-cmp .bars i.b{background:var(--line-strong)}
+.ig-cmp .x{font-family:var(--display);font-weight:700;text-align:left;font-variant-numeric:tabular-nums}
+.callout{font-size:13.5px;background:var(--surface-2);border-radius:12px;padding:12px 14px;color:var(--fg)}
+.callout b{font-weight:700}
+
+#inflKpis{grid-template-columns:repeat(3,1fr)}
+@media (max-width:560px){#inflKpis{grid-template-columns:1fr 1fr}}
+.echo{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.echo-card{background:var(--surface-2);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.echo-card .t{font-size:12.5px;color:var(--fg-2);font-weight:600;display:flex;align-items:center;gap:8px}
+.echo-card .t i{width:12px;height:8px;border-radius:3px;background:var(--c);display:inline-block}
+.echo-card .t i.soft{opacity:.45}
+.echo-card .v{font-family:var(--display);font-size:26px;font-weight:700;font-variant-numeric:tabular-nums}
+.echo-card .v small{font-family:var(--body);font-size:12px;color:var(--fg-3);font-weight:400}
+.echo-card .s{font-size:12.5px;color:var(--fg-2)}
+.calc{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;background:var(--surface-2);border-radius:12px;padding:14px}
+.calc label{font-size:12.5px;color:var(--fg-2);font-weight:600;display:flex;flex-direction:column;gap:6px}
+.calc label small{font-weight:400;color:var(--fg-3)}
+.calc input{font:inherit;font-size:18px;font-weight:700;width:140px;padding:8px 10px;border-radius:8px;border:1px solid var(--line-strong);background:var(--surface);color:var(--fg);font-variant-numeric:tabular-nums}
+.calc input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.calc-out{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.calc-out div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.calc-out .l{font-size:11.5px;color:var(--fg-2)}
+.calc-out .v{font-family:var(--display);font-weight:700;font-size:20px;font-variant-numeric:tabular-nums}
+.calc-out .s{font-size:11.5px;color:var(--fg-3)}
+@media (max-width:640px){.calc{grid-template-columns:1fr}.calc-out{grid-template-columns:1fr 1fr}.echo{grid-template-columns:1fr}}
+.ov-brand{display:flex;flex-direction:column;gap:10px}
+.ov-brand+.ov-brand{margin-top:18px}
+.ov-brand h3{font-size:14px;color:var(--fg-2)}
+.ins-group{font-size:16px;margin-bottom:10px}
+.ins-group~.ins-group{margin-top:22px}
+
+/* insights */
+.insights{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.ins{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:6px;border-inline-start:4px solid var(--accent)}
+.ins.good{border-inline-start-color:var(--good)}
+.ins.warn{border-inline-start-color:var(--warn)}
+.ins .k{font-size:12px;font-weight:600;color:var(--fg-3)}
+.ins .t{font-family:var(--display);font-weight:700;font-size:15px}
+.ins .d{font-size:13px;color:var(--fg-2)}
+
+.notes{font-size:12.5px;color:var(--fg-3);border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:4px}
+.notes b{color:var(--fg-2)}
+footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="page" lang="ar">
+  <header class="hero">
+    <div>
+      <div class="eyebrow">صيت · تقرير أداء الربع الثالث 2026</div>
+      <h1>لوحة أداء براندات صيت</h1>
+      <p class="lead">قراءة واحدة لإعلانات ميتا، متجر زد، حسابات إنستقرام، والخطط التسويقية لأونا ووكاد وبرواد ووكالة صيت. الأرقام مأخوذة من التقارير كما هي، والمشتقات محسوبة منها مباشرة.</p>
+    </div>
+    <div class="periods">
+      <span class="chip"><span class="dot"></span> ميتا: <b>14 يوليو – 11 أكتوبر</b></span>
+      <span class="chip"><span class="dot" style="background:var(--series-2)"></span> زد: <b>1 يوليو – 30 سبتمبر</b></span>
+      <span class="chip"><span class="dot" style="background:var(--series-3)"></span> إنستقرام: <b>يوليو – 10 أكتوبر</b></span>
+      <span class="chip"><span class="dot" style="background:var(--warn)"></span> حملات وكاد: <b>15 يونيو – 11 أكتوبر</b></span>
+    </div>
+  </header>
+
+  <nav class="nav" id="nav">
+    <a href="#overview" class="active">نظرة عامة</a>
+    <a href="#meta">إعلانات ميتا</a>
+    <a href="#zid">متجر زد</a>
+    <a href="#social">السوشيال ميديا</a>
+    <a href="#wekad">حملات وكاد</a>
+    <a href="#plans">الخطط والبراندات</a>
+    <a href="#insights">القراءة والتوصيات</a>
+  </nav>
+
+  <!-- ============ OVERVIEW ============ -->
+  <section id="overview">
+    <div class="sec-head"><h2>المؤشرات الرئيسية</h2><p>ملخص البراندين قبل التفاصيل</p></div>
+    <div class="ov-brand"><h3>أونا · الربع الثالث</h3><div class="kpis" id="kpis"></div></div>
+    <div class="ov-brand"><h3>وكاد · الحملات الأربع</h3><div class="kpis" id="kpisWekad"></div></div>
+  </section>
+
+  <!-- ============ META ============ -->
+  <section id="meta">
+    <div class="sec-head"><h2>إعلانات ميتا · أونا</h2><p>7 حملات · آخر 90 يوماً</p></div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-head">
+          <div><h3>مقارنة الحملات</h3><p>اختر المقياس لإعادة ترتيب الحملات</p></div>
+          <div class="seg" id="metricSeg" role="group" aria-label="المقياس">
+            <button aria-pressed="true" data-m="views">المشاهدات</button>
+            <button aria-pressed="false" data-m="reach">الوصول</button>
+            <button aria-pressed="false" data-m="results">النتائج</button>
+            <button aria-pressed="false" data-m="spend">الإنفاق</button>
+            <button aria-pressed="false" data-m="cpr">تكلفة النتيجة</button>
+          </div>
+        </div>
+        <svg id="campChart" class="chart" role="img" aria-label="مقارنة الحملات"></svg>
+      </div>
+      <div class="card">
+        <div class="card-head"><div><h3>الكفاءة: الإنفاق مقابل النتائج</h3><p>كل نقطة حملة · الأقرب للزاوية العلوية اليسرى أفضل</p></div></div>
+        <svg id="scatter" class="chart" role="img" aria-label="الإنفاق مقابل النتائج"></svg>
+        <div class="legend"><span><i style="background:var(--accent)"></i> أعلى كفاءة</span><span><i style="background:var(--series-1);opacity:.6"></i> بقية الحملات</span></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="card-head"><div><h3>جدول زمني للإطلاق</h3><p>تواريخ إطلاق الحملات السبع، وحالتها الحالية</p></div></div>
+      <div class="timeline" id="timeline"><div class="rail"></div></div>
+      <div class="legend" style="margin-top:30px"><span><i style="background:var(--accent);border-radius:50%"></i> مكتمل</span><span><i style="background:var(--warn);border-radius:50%"></i> متوقف</span></div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="card-head"><div><h3>تفاصيل الحملات</h3><p>اضغط على عنوان العمود للترتيب</p></div></div>
+      <div class="tbl-wrap">
+        <table id="campTable">
+          <thead><tr>
+            <th data-k="rank">#</th>
+            <th data-k="name">الحملة</th>
+            <th data-k="date">الإطلاق</th>
+            <th data-k="status">الحالة</th>
+            <th data-k="views">المشاهدات</th>
+            <th data-k="reach">الوصول</th>
+            <th data-k="results">النتائج</th>
+            <th data-k="spend">الإنفاق (ر.س)</th>
+            <th data-k="cpr">تكلفة النتيجة</th>
+            <th data-k="cpm">CPM</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ZID ============ -->
+  <section id="zid">
+    <div class="sec-head"><h2>المتجر الإلكتروني · زد</h2><p>1 يوليو – 30 سبتمبر 2026</p></div>
+    <div class="kpis" id="zidKpis" style="margin-bottom:14px"></div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-head"><div><h3>رحلة العميل</h3><p>من الزيارة إلى الشراء · الأعداد محسوبة من النسب</p></div></div>
+        <div class="funnel" id="funnel"></div>
+      </div>
+      <div class="card" style="display:flex;flex-direction:column;gap:18px">
+        <div>
+          <div class="card-head"><div><h3>مصادر الزيارات</h3><p>التقرير يحدد المباشر فقط</p></div></div>
+          <div class="meter"><i style="width:50%;background:var(--series-1)"></i><i style="width:50%;background:var(--muted-soft)"></i></div>
+          <div class="meter-lbl"><span><b>50%</b> زيارات مباشرة</span><span><b>50%</b> مصادر أخرى</span></div>
+          <p style="font-size:12.5px;color:var(--fg-3);margin-top:8px">نصف الزيارات تأتي بكتابة الرابط أو من روابط غير متتبعة. نسبة عالية تدل على قوة البراند أو على غياب وسوم UTM في روابط الإعلانات.</p>
+        </div>
+        <div>
+          <h3 style="margin-bottom:10px">مقاييس مشتقة</h3>
+          <div class="kpis" id="derived" style="grid-template-columns:repeat(3,1fr)"></div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-head"><div><h3>أعلى المنتجات مبيعاً</h3><p>قيمة المبيعات بالريال · العدد المباع</p></div></div>
+        <div class="prod" id="topProducts"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div><h3>أفضل المدن</h3><p>قيمة المبيعات · عدد الطلبات</p></div></div>
+        <div class="prod" id="topCities"></div>
+      </div>
+      <div class="card" style="display:flex;flex-direction:column;gap:16px">
+        <div>
+          <div class="card-head"><div><h3>حالة الطلبات</h3><p>من إجمالي 183 طلباً</p></div></div>
+          <div class="status-row" id="orderStatus"></div>
+        </div>
+        <div>
+          <div class="card-head" style="margin-bottom:6px"><div><h3>أفضل العملاء</h3><p>أعلى قيمة شراء في الربع</p></div></div>
+          <div class="tbl-wrap"><table class="sm" id="topCustomers"><thead><tr><th>العميل</th><th>الطلبات</th><th>المبيعات</th></tr></thead><tbody></tbody></table></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SOCIAL ============ -->
+  <section id="social">
+    <div class="sec-head"><h2>السوشيال ميديا · إنستقرام</h2><p>أونا 11 أغسطس – 10 أكتوبر · وكاد 12 يوليو – 10 أكتوبر</p></div>
+    <div class="soc" id="socCards"></div>
+    <div class="grid-2" style="margin-top:14px">
+      <div class="card">
+        <div class="card-head"><div><h3>التفاعل حسب النوع</h3><p>وكاد مقابل أونا · القيم المطلقة</p></div></div>
+        <svg id="engChart" class="chart" role="img" aria-label="مقارنة التفاعل بين وكاد وأونا"></svg>
+        <div class="legend"><span><i style="background:var(--series-1)"></i> وكاد</span><span><i style="background:var(--series-2)"></i> أونا</span></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div><h3>الإنتاجية لكل ريل</h3><p>متوسطات مشتقة من الفترة</p></div></div>
+        <div class="hbars" id="perReel"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <div class="card-head"><div><h3>جمهور وكاد</h3><p>ديموغرافيا متابعي @wekad.sa</p></div></div>
+      <div class="demo">
+        <div><h3>الجنس</h3><div class="gender"><i style="width:50.6%;background:var(--series-1)"></i><i style="width:49.4%;background:var(--series-2)"></i></div><div class="meter-lbl"><span><b>50.6%</b> رجال</span><span><b>49.4%</b> نساء</span></div></div>
+        <div><h3>الفئة العمرية</h3><div class="hbars" id="ageBars"></div></div>
+        <div><h3>أعلى المدن</h3><div class="hbars" id="cityBars"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WEKAD CAMPAIGNS ============ -->
+  <section id="wekad">
+    <div class="sec-head"><h2>حملات وكاد</h2><p>أربع حملات · 15 يونيو – 11 أكتوبر · إنستقرام وتيك توك والمؤثرون</p></div>
+
+    <div class="sb" id="wkBoard"></div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="card-head"><div><h3>نبض تيك توك عبر الحملات</h3><p>متوسط المشاهدات اليومي خلال كل حملة، مقابل الفترة التي سبقتها بنفس عدد الأيام</p></div></div>
+      <div class="scroll-x"><svg id="pulse" class="chart" role="img" aria-label="متوسط مشاهدات تيك توك اليومي لكل حملة مقابل الفترة السابقة"></svg></div>
+      <div class="legend"><span><i style="background:var(--series-2)"></i> التشويق</span><span><i style="background:var(--series-1)"></i> الافتتاح</span><span><i style="background:var(--series-3)"></i> اليوم الوطني</span><span><i style="background:var(--fg-3);opacity:.35"></i> الفترة السابقة بنفس الطول</span></div>
+      <p class="callout" style="margin-top:12px" id="pulseNote"></p>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="card-head"><div><h3>وجهاً لوجه على تيك توك</h3><p>11 مقياساً · الخلية الملونة هي الأعلى في صفها · كأس العالم مقاسة على إنستقرام في الجدول الأخير</p></div></div>
+      <div class="scroll-x"><table class="vs" id="vsTable"></table></div>
+    </div>
+
+    <div id="wkDossiers"></div>
+
+    <div class="card" style="margin-top:18px">
+      <div class="card-head"><div><h3>وجهاً لوجه على إنستقرام</h3><p>متوسط الريل الواحد · الخلية الملونة هي الأعلى في صفها</p></div></div>
+      <div class="scroll-x"><table class="vs" id="igTable"></table></div>
+      <p class="callout" style="margin-top:12px" id="igNote"></p>
+      <p style="font-size:12.5px;color:var(--fg-3);margin-top:8px">ملفا «اليوم الوطني» و«افتتاح الفرع» على إنستقرام متطابقان لأنهما لقطة للحساب كاملاً في 11 سبتمبر – 11 أكتوبر، لذلك يظهران عموداً واحداً. «الأيام العادية» هي بقية ريلز الربع بعد طرح شهر الحملات.</p>
+    </div>
+  </section>
+
+  <!-- ============ PLANS ============ -->
+  <section id="plans">
+    <div class="sec-head"><h2>الخطط التسويقية</h2><p>الخطط الأولية · تغيّر أغلبها وسيُحدَّث هذا القسم</p></div>
+    <div class="grid-2eq">
+      <div class="card plan">
+        <div class="brand"><div class="mark">و</div><div><h3>مقهى ومحمصة وكاد</h3><small>خطة أكتوبر + الذكرى السنوية الأولى</small></div></div>
+        <dl>
+          <dt>الاستراتيجية</dt><dd><b>الامتداد والأثر</b> — احتفال بالسنوية الأولى مع افتتاح فرع جديد</dd>
+          <dt>الفروع</dt><dd>حي الشعلة · حي الكورنيش</dd>
+          <dt>الحملات</dt><dd><div class="tags"><span class="tag acc">لا تهز الفنجان</span><span class="tag acc">للفنجان بقية</span></div></dd>
+          <dt>جمعة النكهات</dt><dd>نكهة أسبوعية متجددة · تبدأ بالفراولة تزامناً مع شهر التوعية بسرطان الثدي</dd>
+        </dl>
+        <div>
+          <div class="card-head" style="margin-bottom:8px"><div><h3 style="font-size:14px">المؤثرون المستهدفون</h3><p>تكلفة التغطية بالريال</p></div></div>
+          <div class="infl" id="infl"></div>
+          <div class="sumline" id="inflSum"></div>
+        </div>
+      </div>
+      <div class="card plan">
+        <div class="brand"><div class="mark alt">أ</div><div><h3>مقهى ومحمصة أونا</h3><small>خطة أغسطس</small></div></div>
+        <dl>
+          <dt>المحاور</dt><dd><div class="tags"><span class="tag acc">المتجر الإلكتروني</span><span class="tag acc">بكجات الصيف</span><span class="tag acc">إسكريم القهوة · أندينديز</span></div></dd>
+          <dt>ميزانيات تجريبية</dt><dd>100 – 500 ر.س لكل منصة · 10 – 40 ر.س يومياً</dd>
+        </dl>
+        <div class="budget"><div><b>تيك توك</b>100–500</div><div><b>إنستقرام</b>100–500</div><div><b>سناب شات</b>100–500</div><div><b>قوقل أدز</b>100–500</div></div>
+        <div>
+          <h3 style="font-size:14px;margin-bottom:8px">أثر الخطة على الإعلانات</h3>
+          <svg id="planImpact" class="chart" role="img" aria-label="نتائج حملات أغسطس مقابل بقية الحملات"></svg>
+          <p style="font-size:12.5px;color:var(--fg-3);margin-top:6px" id="planImpactNote"></p>
+        </div>
+      </div>
+    </div>
+    <div class="grid-4">
+      <div class="card plan">
+        <div class="brand"><div class="mark" style="background:#3E1913;color:#F5E5BE">ب</div><div><h3>برواد</h3><small>خطة ما قبل الافتتاح · الخبر</small></div></div>
+        <dl>
+          <dt>الفكرة</dt><dd>جولة سيارات فخمة تحمل شعار برواد تجوب شوارع الخبر وتوزع الورد قبل الافتتاح</dd>
+          <dt>الهوية</dt><dd>برغندي وكريمي كأساس، مع لمسات زيتوني وبرتقالي</dd>
+        </dl>
+        <div class="swatches">
+          <div class="sw" style="background:#3E1913;color:#F5E5BE"><b>البرغندي</b><span>#3E1913</span></div>
+          <div class="sw" style="background:#F5E5BE;color:#3E1913"><b>الكريمي</b><span>#F5E5BE</span></div>
+          <div class="sw" style="background:#635F28;color:#F5E5BE"><b>الزيتوني</b><span>#635F28</span></div>
+          <div class="sw" style="background:#C84327;color:#F5E5BE"><b>البرتقالي</b><span>#C84327</span></div>
+        </div>
+      </div>
+      <div class="card plan">
+        <div class="brand"><div class="mark alt">ص</div><div><h3>وكالة صيت</h3><small>استراتيجية حساب الوكالة</small></div></div>
+        <div class="pillars">
+          <div class="pillar"><b>بناء الثقة</b>دراسات حالة بأرقام حقيقية من أونا ووكاد</div>
+          <div class="pillar"><b>التعريف بالخدمات</b>هويات بصرية · حملات · تصوير · تصميم جرافيكي</div>
+          <div class="pillar"><b>الكواليس</b>كواليس التصوير والمواقف الطريفة مع الفريق</div>
+          <div class="pillar"><b>الترندات الذكية</b>استغلال الترند المناسب (مثل تفاعل عرض أبو مالح) للانتشار العضوي</div>
+        </div>
+        <p style="font-size:12.5px;color:var(--fg-3)">هذه اللوحة نفسها مادة جاهزة لدراسة حالة: إنفاق 2,757 ر.س يقابله 21,878 ر.س مبيعات متجر و724 ألف مشاهدة.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INSIGHTS ============ -->
+
+  <!-- (plans continued) -->
+  <section id="insights">
+    <div class="sec-head"><h2>القراءة والتوصيات</h2><p>مستخلصة من الأرقام أعلاه</p></div>
+    <div id="insightCards"></div>
+    <div class="notes" style="margin-top:18px">
+      <span><b>ملاحظات على البيانات:</b></span>
+      <span>• فترة ميتا (14 يوليو – 11 أكتوبر) لا تطابق فترة زد (1 يوليو – 30 سبتمبر)، لذلك نسبة المبيعات إلى الإنفاق مؤشر استرشادي وليست عائداً معزواً.</span>
+      <span>• حملة «اكتشف طعم القهوة» بلا نتائج مسجلة (N/A) فاستُبعدت من حساب تكلفة النتيجة ومن مخطط الكفاءة.</span>
+      <span>• أعداد مراحل رحلة العميل محسوبة من النسب المذكورة في التقرير بدءاً من 16,480 زيارة.</span>
+      <span>• في تقرير أونا على إنستقرام عدد المشاهدين الفريدين (21K) أعلى من مشاهدات الريلز (11K) لأن الوصول يشمل المنشورات والستوري، لا الريلز فقط.</span>
+      <span>• فترة تقرير أونا على إنستقرام (شهران) أقصر من فترة وكاد (ثلاثة أشهر)، لذلك المقارنة العادلة هي المعدلات لكل ريل لا الإجماليات.</span>
+      <span>• ملفا إنستقرام «اليوم الوطني» و«افتتاح الفرع» متطابقان رقماً برقم لأنهما لقطة للحساب كاملاً في 11 سبتمبر – 11 أكتوبر، لذلك عُرضا كنافذة واحدة، وجاءت المقارنة بين الحملات من تيك توك.</span>
+      <span>• لقطة تيك توك 26 أغسطس – 2 سبتمبر نُسبت لمرحلة التشويق «لا تهز الفنجان» بحسب توقيتها.</span>
+      <span>• حملة كأس العالم مقاسة من إنستقرام فقط (10 ريلز، 15 – 28 يونيو)، لذلك لا تدخل مقارنة تيك توك. سعر الآيفونات غير مذكور في التقرير، والحاسبة تبدأ بقيمة افتراضية قابلة للتعديل.</span>
+      <span>• ملف الحملات يذكر 50.6% نساء، بينما تقرير الربع يذكر 50.6% رجال. لوحة الجمهور تعرض رقم الربع إلى أن تتأكد اللقطة الأصلية.</span>
+      <span>• متوسط ريل بقية الربع محسوب بطرح شهر الحملات من إجمالي الربع، وهو تقريبي لأن الفترتين تختلفان بيوم واحد.</span>
+    </div>
+  </section>
+
+  <footer><span>صيت · وكالة تسويق</span><span>آخر تحديث للبيانات: 11 أكتوبر 2026</span></footer>
+</div>
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  // ---------- data ----------
+  const camps = [
+    {name:"بوكسات الصيف في أونا", short:"بوكسات الصيف", date:"2026-08-11", dlabel:"11 أغسطس", status:"done", views:268741, reach:128473, results:1966, spend:865.84},
+    {name:"عروض اليوم الوطني مع أونا", short:"اليوم الوطني", date:"2026-08-29", dlabel:"29 أغسطس", status:"off", views:222397, reach:107262, results:1661, spend:712.16},
+    {name:"البحر له طلعاته… وأونا تكملها", short:"البحر له طلعاته", date:"2026-08-11", dlabel:"11 أغسطس", status:"done", views:117534, reach:62015, results:1622, spend:527.92},
+    {name:"إذا البحر وجهتك خل القهوة أول شي", short:"إذا البحر وجهتك", date:"2026-07-29", dlabel:"29 يوليو", status:"done", views:50331, reach:26134, results:1308, spend:169.93},
+    {name:"مو كل هدية تنقال بعض الهدايا تنعاش", short:"مو كل هدية تنقال", date:"2026-08-01", dlabel:"1 أغسطس", status:"done", views:14022, reach:9426, results:452, spend:209.30},
+    {name:"اكتشف طعم القهوة من مهدها الأول", short:"اكتشف طعم القهوة", date:"2026-07-21", dlabel:"21 يوليو", status:"done", views:6666, reach:3450, results:null, spend:146.54},
+    {name:"من أونا.. لأهلنا", short:"من أونا لأهلنا", date:"2026-08-29", dlabel:"29 أغسطس", status:"off", views:44465, reach:26912, results:377, spend:125.19},
+  ];
+  camps.forEach(c=>{ c.cpr = c.results? c.spend/c.results : null; c.cpm = c.spend/(c.views/1000); c.freq = c.views/c.reach; });
+  const zid = {sales:21878, orders:183, sessions:16480, customers:162, direct:.5, f:[.128,.29,.531,.5631]};
+  const products=[["بوكس الثلاثي · TRIO BOX",129,13268],["ETHIO BOX",42,4796],["DEU BOX",7,693],["بوكس البحر · محاصيل إثيوبية فاخرة",3,687],["بوكس يوم الميلاد · محاصيل متنوعة",4,596]];
+  const cities2=[["الرياض",28,3341.5],["الدمام",24,2818.5],["الخبر",21,2617.5],["القطيف",12,1328.5],["المبرز",10,1120.5]];
+  const customers=[["عميل 1",4,381.5],["عميل 2",3,359],["عميل 3",3,345],["عميل 4",2,297],["عميل 5",2,250]];
+  const orderStatus=[["تم التوصيل",181,"good"],["جاري التوصيل",1,""],["تم الإلغاء",1,"warn"]];
+  const inflCamp = {accounts:15, budget:20600, views:1112000, likes:19942, comments:695, shares:11844, saves:9147, date:"9 سبتمبر"};
+  inflCamp.eng = inflCamp.likes+inflCamp.comments+inflCamp.shares+inflCamp.saves;
+  inflCamp.cpv = inflCamp.budget/inflCamp.views; inflCamp.cpe = inflCamp.budget/inflCamp.eng;
+  const topAcc = [
+    {h:"@gheyo7", views:172800, cost:4000, note:"1,792 حفظ"},
+    {h:"@swalif.meem", views:143600, cost:900, note:"إطراء على تنوع الحلويات"},
+    {h:"@al_reem25", views:128400, cost:1250, note:"صوت المعلن وتقييم إيجابي"},
+    {h:"@94fmo", views:113900, cost:1500, note:"4,159 مشاركة · 2,078 حفظ"},
+    {h:"@fhd.khobar", views:106500, cost:800, note:"تكلفة اقتصادية"},
+  ];
+  const social = {
+    wekad:{name:"وكاد", handle:"@wekad.sa", period:"12 يوليو – 10 أكتوبر", followers:8503, reels:16, views:113000, viewers:113000, likes:8700, comments:119, shares:1700, saves:833, reposts:45},
+    ona:{name:"أونا", handle:"@onaroastery.sa", period:"11 أغسطس – 10 أكتوبر", followers:9700, reels:4, views:11000, viewers:21000, likes:532, comments:22, shares:354, saves:170, reposts:3},
+  };
+  Object.values(social).forEach(b=>{ b.eng=b.likes+b.comments+b.shares+b.saves+b.reposts; b.er=b.eng/b.views; b.vpr=b.views/b.reels; b.epr=b.eng/b.reels; b.shareRatio=b.shares/b.likes; });
+  const ages=[["25 – 34",53.3],["18 – 24",26.0],["35 – 44",15.1],["أخرى",5.6]];
+  const cities=[["الدمام",37.3],["الخبر",16.1],["الرياض",6.8],["الجبيل",5.5],["الهفوف",3.3],["أخرى",31.0]];
+  const infl = [
+    {h:"رائد عبدالمحسن", u:"@raid_alreda", lo:3500, hi:4000},
+    {h:"عبدالله", u:"@88-aj", lo:2000, hi:2000},
+    {h:"محمد مسفر", u:"@xmesfer", lo:1400, hi:1400},
+    {h:"عبدالله بن فرحان", u:"@cxp", lo:1400, hi:1400},
+    {h:"زيز", u:"@itestvibes", lo:1300, hi:1300},
+    {h:"ابتسام", u:"@bsoomt7", lo:900, hi:900},
+  ];
+
+  // ---------- helpers ----------
+  const fmt = (n,d=0)=> n==null? "—" : n.toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:d});
+  const sum = (a,k)=> a.reduce((s,x)=> s+(x[k]||0),0);
+  const tot = {spend:sum(camps,"spend"), views:sum(camps,"views"), reach:sum(camps,"reach"), results:sum(camps,"results")};
+  tot.cpr = tot.spend/tot.results; tot.cpm = tot.spend/(tot.views/1000); tot.freq = tot.views/tot.reach;
+  const z = {aov: zid.sales/zid.orders, cr: zid.orders/zid.sessions, rps: zid.sales/zid.sessions, opc: zid.orders/zid.customers, roasIdx: zid.sales/tot.spend};
+  const fn = [zid.sessions];
+  zid.f.forEach(r=> fn.push(Math.round(fn[fn.length-1]*r)));
+  fn[4]=zid.orders; // the chain lands on 183 orders
+
+  const tip = document.getElementById("tip");
+  function showTip(html, ev){
+    tip.innerHTML = html; tip.classList.add("show");
+    moveTip(ev);
+  }
+  function moveTip(ev){
+    const w = tip.offsetWidth, h = tip.offsetHeight;
+    let x = ev.clientX - w - 14, y = ev.clientY - h/2;
+    if (x < 8) x = ev.clientX + 14;
+    if (y < 8) y = 8; if (y + h > innerHeight-8) y = innerHeight-8-h;
+    tip.style.left = x+"px"; tip.style.top = y+"px";
+  }
+  function hideTip(){ tip.classList.remove("show"); }
+  const svgNS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, parent){ const e=document.createElementNS(svgNS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
+  function txt(parent, x, y, s, cls, anchor){ const t=el("text",{x,y,"text-anchor":anchor||"end",class:cls||""},parent); t.textContent=s; return t; }
+  function niceMax(v){ const p=Math.pow(10,Math.floor(Math.log10(v))); const r=v/p; const m = r<=1?1: r<=2?2: r<=2.5?2.5: r<=5?5:10; return m*p; }
+
+  // ---------- KPIs ----------
+  const kpiHTML = (l,v,unit,s,hero,bar)=> `<div class="kpi${hero?" hero-kpi":""}"><span class="l">${l}</span><span class="v num">${v}${unit?`<small>${unit}</small>`:""}</span>${s?`<span class="s">${s}</span>`:""}${bar!=null?`<div class="spark"><i style="width:${bar}%"></i></div>`:""}</div>`;
+  document.getElementById("kpis").innerHTML = [
+    kpiHTML("مبيعات المتجر", fmt(zid.sales), "ر.س", "متجر زد · 1 يوليو – 30 سبتمبر", true),
+    kpiHTML("إنفاق إعلانات ميتا", fmt(tot.spend,2), "ر.س", "7 حملات · آخر 90 يوماً"),
+    kpiHTML("نتائج ميتا", fmt(tot.results), "", `تكلفة النتيجة ${tot.cpr.toFixed(2)} ر.س`),
+    kpiHTML("مبيعات ÷ إنفاق ميتا", z.roasIdx.toFixed(1)+"×", "", "مؤشر استرشادي غير معزو"),
+  ].join("");
+
+  document.getElementById("zidKpis").innerHTML = [
+    kpiHTML("الطلبات", fmt(zid.orders), "", "طلب", true),
+    kpiHTML("الجلسات", fmt(zid.sessions), "", "زيارة"),
+    kpiHTML("العملاء", fmt(zid.customers), "", "عميل"),
+    kpiHTML("متوسط قيمة الطلب", z.aov.toFixed(2), "ر.س"),
+  ].join("");
+  document.getElementById("derived").innerHTML = [
+    kpiHTML("معدل التحويل", (z.cr*100).toFixed(2), "%"),
+    kpiHTML("طلبات لكل عميل", z.opc.toFixed(2), ""),
+    kpiHTML("إيراد لكل زيارة", z.rps.toFixed(2), "ر.س"),
+  ].join("");
+
+  // ---------- Campaign bar chart ----------
+  const metricMeta = {
+    views:{l:"المشاهدات", f:v=>fmt(v), unit:""},
+    reach:{l:"الوصول", f:v=>fmt(v), unit:""},
+    results:{l:"النتائج", f:v=>fmt(v), unit:""},
+    spend:{l:"الإنفاق", f:v=>fmt(v,2), unit:" ر.س"},
+    cpr:{l:"تكلفة النتيجة", f:v=>v.toFixed(2), unit:" ر.س", lowerBetter:true},
+  };
+  let metric = "views";
+  const chart = document.getElementById("campChart");
+  function drawBars(){
+    chart.innerHTML = "";
+    const m = metricMeta[metric];
+    const rows = camps.filter(c=>c[metric]!=null).sort((a,b)=> m.lowerBetter? a[metric]-b[metric] : b[metric]-a[metric]);
+    const W=560, labelW=150, padL=70, rowH=38, top=22, H= top + rows.length*rowH + 30;
+    chart.setAttribute("viewBox",`0 0 ${W} ${H}`);
+    const max = niceMax(Math.max(...rows.map(r=>r[metric])));
+    const x0 = W-labelW, plotW = x0-padL;
+    const sx = v=> x0 - (v/max)*plotW;
+    for(let i=0;i<=4;i++){ const v=max*i/4; const x=sx(v); el("line",{x1:x,x2:x,y1:top-6,y2:H-26,class:"grid"},chart); txt(chart,x,H-10,m.f(v),"", "middle"); }
+    el("line",{x1:x0,x2:x0,y1:top-6,y2:H-26,class:"axis"},chart);
+    const best = rows[0];
+    rows.forEach((r,i)=>{
+      const y = top + i*rowH;
+      const w = (r[metric]/max)*plotW;
+      const bar = el("rect",{x:x0-w, y:y+4, width:w, height:rowH-14, class:"bar"+(r===best?" top":""), rx:4},chart);
+      txt(chart, x0+8, y+rowH/2+1, r.short, "cat", "start");
+      txt(chart, x0-w-6, y+rowH/2+1, m.f(r[metric])+m.unit, "val", "end");
+      const hit = el("rect",{x:padL, y:y, width:W-padL, height:rowH, class:"hit"},chart);
+      const html = `<b>${r.name}</b><br>${m.l}: ${m.f(r[metric])}${m.unit}<br>الإنفاق ${fmt(r.spend,2)} ر.س · النتائج ${fmt(r.results)}<br>تكلفة النتيجة ${r.cpr? r.cpr.toFixed(2)+" ر.س":"—"}`;
+      hit.addEventListener("mouseenter",e=>{ showTip(html,e); chart.querySelectorAll(".bar").forEach(b=> b!==bar && b.classList.add("dim")); });
+      hit.addEventListener("mousemove",moveTip);
+      hit.addEventListener("mouseleave",()=>{ hideTip(); chart.querySelectorAll(".bar").forEach(b=>b.classList.remove("dim")); });
+    });
+  }
+  drawBars();
+  document.getElementById("metricSeg").addEventListener("click",e=>{
+    const b = e.target.closest("button"); if(!b) return;
+    metric = b.dataset.m;
+    document.querySelectorAll("#metricSeg button").forEach(x=> x.setAttribute("aria-pressed", x===b));
+    drawBars();
+  });
+
+  // ---------- Scatter: spend vs results ----------
+  (function(){
+    const s = document.getElementById("scatter");
+    const rows = camps.filter(c=>c.results!=null);
+    const W=420,H=300, padR=20,padL=52,padT=16,padB=40;
+    s.setAttribute("viewBox",`0 0 ${W} ${H}`);
+    const mx = niceMax(Math.max(...rows.map(r=>r.spend))), my = niceMax(Math.max(...rows.map(r=>r.results)));
+    const X = v=> padL + (v/mx)*(W-padL-padR), Y = v=> H-padB - (v/my)*(H-padT-padB);
+    for(let i=0;i<=4;i++){ const y=Y(my*i/4); el("line",{x1:padL,x2:W-padR,y1:y,y2:y,class:"grid"},s); txt(s,padL-6,y+4,fmt(my*i/4),"","end"); const x=X(mx*i/4); txt(s,x,H-padB+16,fmt(mx*i/4),"","middle"); }
+    el("line",{x1:padL,x2:W-padR,y1:H-padB,y2:H-padB,class:"axis"},s);
+    txt(s,W-padR,H-6,"الإنفاق (ر.س)","", "end"); txt(s,padL-6,padT-4,"النتائج","","end");
+    // reference line: average CPR
+    el("line",{x1:X(0),y1:Y(0),x2:X(mx),y2:Y(mx/tot.cpr),stroke:"var(--line-strong)","stroke-width":1,"stroke-dasharray":"4 4"},s);
+    txt(s,X(mx)-4,Y(mx/tot.cpr)-6,`متوسط ${tot.cpr.toFixed(2)} ر.س/نتيجة`,"", "end");
+    const best = rows.reduce((a,b)=> a.cpr<b.cpr?a:b);
+    rows.forEach(r=>{
+      const c = el("circle",{cx:X(r.spend),cy:Y(r.results),r: r===best?8:6,class:"pt",fill: r===best?"var(--accent)":"var(--series-1)", opacity: r===best?1:.7},s);
+      if(r===best || r.results>1500) txt(s, X(r.spend)+(r===best?10:-10), Y(r.results)+4, r.short, "cat", r===best?"start":"end");
+      const html=`<b>${r.name}</b><br>الإنفاق ${fmt(r.spend,2)} ر.س<br>النتائج ${fmt(r.results)}<br>تكلفة النتيجة ${r.cpr.toFixed(2)} ر.س`;
+      c.addEventListener("mouseenter",e=>showTip(html,e)); c.addEventListener("mousemove",moveTip); c.addEventListener("mouseleave",hideTip);
+    });
+  })();
+
+  // ---------- Timeline ----------
+  (function(){
+    const t = document.getElementById("timeline");
+    const d0 = new Date("2026-07-14"), d1 = new Date("2026-10-11");
+    const pos = d=> ((new Date(d)-d0)/(d1-d0))*100;
+    [["2026-07-14","14 يوليو"],["2026-08-01","1 أغسطس"],["2026-09-01","1 سبتمبر"],["2026-10-01","1 أكتوبر"],["2026-10-11","11 أكتوبر"]].forEach(([d,l])=>{
+      const s=document.createElement("span"); s.className="tick"; s.style.right=pos(d)+"%"; s.textContent=l; t.appendChild(s);
+    });
+    const groups = {};
+    camps.forEach(c=>{ (groups[c.date]=groups[c.date]||[]).push(c); });
+    Object.entries(groups).sort((a,b)=>a[0]<b[0]?-1:1).forEach(([d,arr],gi)=>{
+      arr.forEach((c,i)=>{
+        const m=document.createElement("span"); m.className="m"+(c.status==="off"?" off":""); m.style.right=pos(d)+"%"; m.style.top=(-6 - i*0)+"px"; m.title=c.name;
+        m.addEventListener("mouseenter",e=>showTip(`<b>${c.name}</b><br>${c.dlabel} · ${c.status==="off"?"متوقف":"مكتمل"}<br>${fmt(c.views)} مشاهدة`,e)); m.addEventListener("mousemove",moveTip); m.addEventListener("mouseleave",hideTip);
+        t.appendChild(m);
+      });
+      const l=document.createElement("span"); l.className="lbl"+(gi%2?" alt":""); l.style.right=pos(d)+"%";
+      l.innerHTML = arr.map(c=>c.short).join("<br>"); t.appendChild(l);
+    });
+  })();
+
+  // ---------- Table ----------
+  (function(){
+    const tb = document.querySelector("#campTable tbody");
+    let key="views", dir=-1;
+    const maxV = Math.max(...camps.map(c=>c.views));
+    function render(){
+      const rows=[...camps].sort((a,b)=>{ const va=a[key],vb=b[key]; if(va==null) return 1; if(vb==null) return -1; return (va>vb?1:va<vb?-1:0)*dir; });
+      const byCpr=[...camps].filter(c=>c.cpr).sort((a,b)=>a.cpr-b.cpr).map(c=>c.name);
+      tb.innerHTML = rows.map((c,i)=>`<tr>
+        <td><span class="rank${i===0?" r1":""}">${i+1}</span></td>
+        <td><div class="bar-cell"><span>${c.name}</span></div></td>
+        <td class="n">${c.dlabel}</td>
+        <td><span class="status ${c.status==="off"?"off":"done"}">${c.status==="off"?"متوقف":"مكتمل"}</span></td>
+        <td class="n"><div class="bar-cell"><i style="width:${(c.views/maxV)*60}px"></i>${fmt(c.views)}</div></td>
+        <td class="n">${fmt(c.reach)}</td>
+        <td class="n">${fmt(c.results)}</td>
+        <td class="n">${fmt(c.spend,2)}</td>
+        <td class="n" style="${byCpr[0]===c.name?"color:var(--good);font-weight:600":""}">${c.cpr? c.cpr.toFixed(2):"—"}</td>
+        <td class="n">${c.cpm.toFixed(2)}</td>
+      </tr>`).join("") + `<tr style="background:var(--surface-2);font-weight:600"><td></td><td>الإجمالي</td><td></td><td></td><td class="n">${fmt(tot.views)}</td><td class="n">${fmt(tot.reach)}</td><td class="n">${fmt(tot.results)}</td><td class="n">${fmt(tot.spend,2)}</td><td class="n">${tot.cpr.toFixed(2)}</td><td class="n">${tot.cpm.toFixed(2)}</td></tr>`;
+      document.querySelectorAll("#campTable th").forEach(th=>{ th.querySelector(".ar")?.remove(); if(th.dataset.k===key){ const s=document.createElement("span"); s.className="ar"; s.textContent= dir<0?"▼":"▲"; th.appendChild(s);} });
+    }
+    document.querySelectorAll("#campTable th").forEach(th=> th.addEventListener("click",()=>{ const k=th.dataset.k; if(k==="rank") return; if(key===k) dir*=-1; else { key=k; dir = (k==="name"||k==="status"||k==="date")?1:-1; } render(); }));
+    render();
+  })();
+
+  // ---------- Funnel ----------
+  (function(){
+    const f = document.getElementById("funnel");
+    const names=[["الزيارات","جلسات المتجر"],["مشاهدة منتج","من الزيارات"],["إضافة للسلة","من مشاهدات المنتج"],["تأكيد الطلب","من السلة"],["إتمام الشراء","من تأكيد الطلب"]];
+    const cols=["var(--ord-1)","var(--ord-2)","var(--ord-3)","var(--ord-4)","var(--ord-5)"];
+    const minRate = Math.min(...zid.f);
+    let html="";
+    fn.forEach((v,i)=>{
+      // sqrt scale so the 1% tail stays visible; label carries the true number
+      const w = Math.max(4, Math.sqrt(v/fn[0])*100);
+      html += `<div class="stage"><div class="name">${names[i][0]}<small>${names[i][1]}</small></div><div class="track"><div class="fill" style="width:${w}%;background:${cols[i]}" data-i="${i}"></div></div><div class="cnt num">${fmt(v)}</div></div>`;
+      if(i<4){ const r=zid.f[i]; html += `<div class="step"><div></div><div class="arrow${r===minRate?" low":""}">↓ <b>${(r*100).toFixed(r*100%1?2:0)}%</b> ${r===minRate?"· أضعف مرحلة":""}</div><div></div></div>`; }
+    });
+    f.innerHTML = html;
+    f.querySelectorAll(".fill").forEach(e=>{ const i=+e.dataset.i; const h=`<b>${names[i][0]}</b><br>${fmt(fn[i])} · ${(fn[i]/fn[0]*100).toFixed(2)}% من الزيارات`; e.addEventListener("mouseenter",ev=>showTip(h,ev)); e.addEventListener("mousemove",moveTip); e.addEventListener("mouseleave",hideTip); });
+  })();
+
+  // ---------- Zid detail ----------
+  (function(){
+    const bars=(id,arr,unitA)=>{ const mx=Math.max(...arr.map(a=>a[2])); document.getElementById(id).innerHTML=arr.map(([n,c,v])=>`<div class="r"><span class="nm">${n}<small>${fmt(c)} ${unitA}</small></span><span class="n">${fmt(v,v%1?1:0)}<small> ر.س</small></span><div class="b"><i style="width:${v/mx*100}%"></i></div></div>`).join(""); };
+    bars("topProducts",products,"قطعة"); bars("topCities",cities2,"طلب");
+    document.getElementById("orderStatus").innerHTML = orderStatus.map(([l,v,c])=>`<div><span class="l">${l}</span><span class="v num" style="${c==="good"?"color:var(--good)":c==="warn"?"color:var(--warn)":""}">${fmt(v)}<small>${(v/zid.orders*100).toFixed(1)}%</small></span></div>`).join("");
+    document.querySelector("#topCustomers tbody").innerHTML = customers.map(([n,o,v])=>`<tr><td>${n}</td><td class="n">${o}</td><td class="n">${fmt(v,v%1?1:0)}</td></tr>`).join("");
+  })();
+
+  // ---------- Wekad campaigns ----------
+  let wkWins = {};
+  (function(){
+    const fmtK = v=> v>=1e6? (v/1e6).toFixed(2)+"M" : v>=1000? (v/1000).toFixed(1).replace(/\.0$/,"")+"K" : fmt(v);
+    const pct = (v,d=1)=> `<bdi dir="ltr">${v>0?"+":""}${fmt(v,d)}%</bdi>`;
+    const deltaHTML = p=> `<span class="delta ${p>=0?"up":"down"}">${p>=0?"▲":"▼"} ${fmt(Math.abs(p),1)}%</span>`;
+
+    // World Cup reels: [date, title, views, likes, comments, reposts, shares, type]
+    const wcReels = [
+      ["15/06","مباراة الليلة على...",6263,51,2,1,9,"match"],
+      ["16/06","يا سلام على الحماس...",4598,25,0,1,7,"match"],
+      ["16/06","شاركنا: هل توقعت نتيجة...",5218,31,0,1,3,"give"],
+      ["16/06","مبروك للفائز بالأيفون...",3027,22,0,1,5,"give"],
+      ["20/06","جاهزين للحماس...",14011,87,4,1,17,"match"],
+      ["23/06","بين الشوطين... كنتوا...",3883,23,0,1,1,"match"],
+      ["24/06","هاردلك صقورنا، وإن شاء...",3543,28,0,1,2,"match"],
+      ["28/06","توقعات جمهور وكاد قبل...",5446,18,1,1,6,"give"],
+      ["28/06","الأجواء بين الشوطين...",3736,19,0,1,0,"match"],
+      ["28/06","هاردلك صقورنا",4667,23,0,1,9,"match"],
+    ];
+    const agg = rs=>{ const a={n:rs.length,views:0,likes:0,comments:0,reposts:0,shares:0}; rs.forEach(r=>{a.views+=r[2];a.likes+=r[3];a.comments+=r[4];a.reposts+=r[5];a.shares+=r[6];}); a.reels=a.n; a.eng=a.likes+a.comments+a.reposts+a.shares; a.er=a.eng/a.views; a.avg=a.views/a.n; return a; };
+    const wcT = agg(wcReels), give = agg(wcReels.filter(r=>r[7]==="give")), match = agg(wcReels.filter(r=>r[7]==="match"));
+    const wcBest = wcReels.reduce((a,b)=> a[2]>b[2]?a:b);
+    const wcBestShare = wcBest[2]/wcT.views*100;
+    const wcMin = Math.min(...wcReels.map(r=>r[2])), wcMax = wcBest[2];
+
+    const wk = [
+      {id:"wc", no:1, name:"كأس العالم", slogan:"سحب على 3 آيفونات · 10 ريلز", c:"var(--series-4)", dates:"15 – 28 يونيو", days:14, ig:wcT,
+       verdict:"وصول بلا تفاعل",
+       story:"عشر ريلز وثلاثة آيفونات جلبت أكثر من 54 ألف مشاهدة، لكن الجمهور شاهد ولم يتفاعل، والسحب لم يحرك المشاركة.",
+       hero:{v:fmtK(wcT.views), l:"مشاهدة على إنستقرام في 14 يوماً"},
+       exec:[["done","10 ريلز تواكب مباريات المنتخب","من مباراة 15 يونيو إلى الوداع في 28 يونيو"],["done","سحب على 3 آيفونات","التقرير يحوي ريل إعلان فائز واحداً فقط"],["done","ريلز توقعات وتفاعل مع الجمهور","«شاركنا: هل توقعت النتيجة» بلا أي تعليق"],["issue","تشغيل الفروع وقت المباريات","ضعف تشغيلي شديد أدى إلى نزول المبيعات"]],
+       ok:[`ريل «جاهزين للحماس» (20 يونيو) وحده جلب ${wcBestShare.toFixed(0)}% من مشاهدات الحملة: الحماس قبل المباراة هو ما انتشر، لا الجائزة`,"حضور ثابت مع كل مباراة للمنتخب طوال أسبوعين"],
+       bad:[`${wcT.comments} تعليقات فقط في الحملة كلها، رغم أن الجائزة ثلاثة آيفونات`,"ريل المشاركة في السحب وريل إعلان الفائز نُشرا في اليوم نفسه (16 يونيو)، فنافذة المشاركة كانت قصيرة جداً","ضعف تشغيلي شديد في الفروع وقت المباريات أنزل المبيعات، فلم يتحول الحماس إلى زيارات"],
+       nx:["ربط السحب بشرط قابل للقياس: تعليق بالتوقع، أو منشن صديق، أو فاتورة من الفرع","إعلان آلية السحب قبل أول مباراة، وإعلان كل فائز في ريل مستقل بعد مباراته","طاقم إضافي وقت المباريات لأن الطلب يأتي دفعة واحدة"]},
+      {id:"teaser", no:2, name:"التشويق", slogan:"لا تهز الفنجان", c:"var(--series-2)", dates:"26 أغسطس – 2 سبتمبر", start:"2026-08-26", days:8,
+       verdict:"انطلاقة ×7",
+       story:"الغموض اشتغل: مشاهدات تيك توك تضاعفت سبع مرات عن الأسبوع السابق، لكن العنصر الميداني الأبرز سقط لغياب التصريح.",
+       hero:{v:"24.9K", l:"مشاهدة على تيك توك في 8 أيام"},
+       tt:{views:24900,pv:598.5,dv:21300, profile:806,pp:178.9,dp:517, likes:558,pl:431.4,dl:453, shares:247,ps:1800,ds:234, comments:76,pc:442.9,dc:62},
+       exec:[["plan","ختم الفواتير بشعار «لا تهز الفنجان»","زرع الفضول بصرياً مع كل طلب"],["plan","شاشات الفرع: عد تنازلي غامض","دون الإفصاح عن طبيعة الحدث"],["issue","الفنجان المتنقل على سيارة سييرا في شوارع الخبر","لا تصريح للسيارة، فتغيّرت الخطة"]],
+       ok:["الغموض جذب المشاهدة والنقاش معاً: أعلى عدد تعليقات بين حملات تيك توك","الجمهور نقل الفضول لغيره، فالمشاركات كانت أسرع مقياس نمواً في الحملة"],
+       bad:["سقوط سيارة الفنجان المتنقل لغياب التصريح، وهي العنصر الميداني الأبرز","الفضول لم يتحول إلى متابعة: أقل نسبة زيارة للحساب بين حملات تيك توك"],
+       nx:["استخراج تصاريح السيارات والفعاليات قبل بدء الإنتاج","دعوة صريحة لمتابعة الحساب في آخر كل مقطع تشويقي","تحديد موعد الكشف مسبقاً حتى لا يتسرب المحتوى قبل وقته"]},
+      {id:"opening", no:3, name:"افتتاح الفرع الجديد", slogan:"9 سبتمبر · 15 مؤثراً", c:"var(--series-1)", dates:"7 – 9 سبتمبر", start:"2026-09-07", days:3,
+       verdict:"الأوسع وصولاً",
+       story:"المؤثرون حملوا الافتتاح بأكثر من مليون مشاهدة، بينما هدأ حساب وكاد أيام الافتتاح لأن ذروة مقاطعه جاءت قبلها بأيام.",
+       hero:{v:"1.11M", l:"مشاهدة عبر 15 مؤثراً"},
+       tt:{views:7600,pv:-39.6,dv:-5000, profile:963,pp:13.2,dp:112, likes:396,pl:2.9,dl:11, shares:55,ps:-36.8,ds:-32, comments:66,pc:46.7,dc:21},
+       exec:[["done","15 مؤثراً يغطون الافتتاح","التفاصيل في حملة المؤثرين أدناه"],["issue","دعوات VIP: علبة زري البشت والعلبة الهرمية","تأخر التنفيذ والتوصيل"],["plan","تجربة الفرع: مدخل الخيمة، أرضية الرمال، شاشات الهيف والضيف والكيف","تحويل الزيارة إلى تجربة تستحق التصوير"],["plan","الضيافة: تشيز كيك وحلويات بتقديم مبتكر","أثنى عليها swalif.meem في تغطيته"]],
+       ok:["المؤثرون صنعوا أوسع وصول في الفترة كلها","من شاهد بحث عن وكاد: أعلى نسبة زيارة للحساب وأعلى معدل تفاعل بين حملات تيك توك","الحسابات المتوسطة أثبتت أنها الأرخص وصولاً"],
+       bad:["حرق التسلسل الزمني للمقاطع بتدخلات خارجية، فجاءت الذروة قبل الافتتاح لا خلاله","تأخر تنفيذ الدعوات وتوصيلها","لا ميزانية واضحة للبلوقرز ولا توجيه موحد لهم","تحفظ الموظفين على فكرة التجمعات، والقهوة السعودية لا تُقدَّم في الفروع يوم الجمعة"],
+       nx:["تقويم نشر مقفل بمواعيد دقيقة، وأي تغيير يمر عبر شخص واحد","بريف موحد وميزانية محددة لكل مؤثر قبل التعاقد","توصيل الدعوات قبل الحدث بخمسة أيام على الأقل","توزيع الميزانية على حسابات متوسطة بدل حساب كبير واحد"]},
+      {id:"nd", no:4, name:"اليوم الوطني", slogan:"صدى العز · عزنا بطبعنا", c:"var(--series-3)", dates:"19 – 23 سبتمبر", start:"2026-09-19", days:5,
+       verdict:"الأقوى عضوياً",
+       story:"أقوى حملة عضوية في الفترة: المشاهدات تضاعفت 11 مرة في خمسة أيام والمشاركات 24 مرة، لكن الفرع لم يكن جاهزاً لاستقبال هذا الطلب.",
+       hero:{v:"35.5K", l:"مشاهدة على تيك توك في 5 أيام"},
+       tt:{views:35500,pv:1007.6,dv:32300, profile:2300,pp:330.4,dp:1800, likes:781,pl:1597.8,dl:735, shares:414,ps:2335.3,ds:397, comments:68,pc:580,dc:58},
+       exec:[["plan","فيديو تشويقي صوتي قبل المناسبة بأسبوع","السيف، العرضة، الدلة، خطوات على الرمل، راديو قديم"],["issue","واجهة البيت السعودي بنوافذ الراديو","تأخر تركيب الخشب يوم المناسبة"],["issue","أكواب الراديو وتوزيعات الكاسيت","نفدت الأكواب مبكراً"],["issue","المطبوعات","تأخر التنفيذ"]],
+       ok:["فكرة «صدى العز» الصوتية انتشرت بنفسها، بلا جوائز ولا مؤثرين","الأعلى في المشاهدة اليومية والمشاركات وزيارات الحساب بين كل حملات تيك توك","قالب صوتي قابل للتكرار في كل مناسبة وطنية"],
+       bad:["تأخر تركيب الخشب أخّر الواجهة يوم المناسبة، وتأخرت المطبوعات","نفاد الأكواب مبكراً","لا طاقم مرن يغطي الزحمة ولا عمالة مختصة بالتنظيف","الموظف غير مدرب على التعامل مع العميل ورفع متوسط الفاتورة"],
+       nx:["تركيب الواجهة وتسليم المطبوعات قبل المناسبة بـ72 ساعة","مخزون أكواب مضاعف على أساس طلب هذه السنة","ورديات زحمة ودورة قصيرة في البيع الإضافي قبل كل موسم"]},
+    ];
+    const tk = wk.filter(c=>c.tt), byId = Object.fromEntries(wk.map(c=>[c.id,c]));
+    tk.forEach(c=>{ const t=c.tt; t.eng=t.likes+t.shares+t.comments; t.er=t.eng/t.views; t.perDay=t.views/c.days; t.shareRate=t.shares/t.views; t.profileRate=t.profile/t.views; t.prevViews=t.views-t.dv; });
+
+    // ---- TikTok comparison metrics ----
+    const M = [
+      {g:"الوصول"},
+      {l:"المشاهدات", f:t=>t.views, s:v=>fmtK(v)},
+      {l:"متوسط المشاهدات اليومي", f:t=>t.perDay, s:v=>fmt(Math.round(v))},
+      {l:"النمو عن الفترة السابقة", f:t=>t.pv, s:v=>pct(v)},
+      {l:"زيارات الحساب", f:t=>t.profile, s:v=>fmt(v)},
+      {g:"التفاعل"},
+      {l:"الإعجابات", f:t=>t.likes, s:v=>fmt(v)},
+      {l:"المشاركات", f:t=>t.shares, s:v=>fmt(v)},
+      {l:"التعليقات", f:t=>t.comments, s:v=>fmt(v)},
+      {l:"إجمالي التفاعل", f:t=>t.eng, s:v=>fmt(v)},
+      {g:"الجودة"},
+      {l:"معدل التفاعل", f:t=>t.er, s:v=>(v*100).toFixed(1)+"%"},
+      {l:"نسبة المشاركة من المشاهدات", f:t=>t.shareRate, s:v=>(v*100).toFixed(2)+"%"},
+      {l:"نسبة زيارة الحساب", f:t=>t.profileRate, s:v=>(v*100).toFixed(1)+"%"},
+    ];
+    const scored = M.filter(m=>m.l);
+    tk.forEach(c=> wkWins[c.id]=0);
+    scored.forEach(m=>{ const best = tk.reduce((a,b)=> m.f(a.tt)>=m.f(b.tt)?a:b); m.win=best.id; wkWins[best.id]++; });
+    wkWins.total = scored.length;
+
+    // ---- scoreboard ----
+    document.getElementById("wkBoard").innerHTML = wk.map(c=>`<a class="sbc" href="#dz-${c.id}" style="--c:${c.c}">
+      <span class="meta"><i></i>الحملة ${c.no} · ${c.dates}</span>
+      <div><h3>${c.name}</h3><span class="slogan">${c.slogan}</span></div>
+      <div><div class="big">${c.hero.v}</div><div class="big-l">${c.hero.l}</div></div>
+      <div>${c.tt? `${deltaHTML(c.tt.pv)} <span style="font-size:12px;color:var(--fg-2)">عن الفترة السابقة</span>` : `<span class="delta down">تفاعل ${(c.ig.er*100).toFixed(2)}%</span> <span style="font-size:12px;color:var(--fg-2)">الأقل بين حملات وكاد</span>`}</div>
+      <div class="row"><span class="verdict">${c.verdict}</span>
+        ${c.tt? `<span class="wins">الأعلى في ${wkWins[c.id]} من ${wkWins.total} مقياساً<span class="dots">${Array.from({length:wkWins.total},(_,i)=>`<i class="${i<wkWins[c.id]?"on":""}"></i>`).join("")}</span></span>` : `<span class="wins">مقاسة على إنستقرام<span>خارج مقارنة تيك توك</span></span>`}</div>
+    </a>`).join("");
+
+    // ---- TikTok versus table ----
+    const head = `<thead><tr><th>المقياس</th>${tk.map(c=>`<th style="--c:${c.c}"><i></i>${c.name}<small>${c.dates} · ${c.days} أيام</small></th>`).join("")}</tr></thead>`;
+    const body = M.map(m=>{
+      if(m.g) return `<tr class="grp"><th colspan="${tk.length+1}">${m.g}</th></tr>`;
+      const vals = tk.map(c=>m.f(c.tt)); const mx = Math.max(...vals);
+      return `<tr><th>${m.l}</th>${tk.map((c,i)=>{ const v=vals[i]; const w = v>0? v/mx*100 : 0;
+        return `<td class="${m.win===c.id?"win":""} ${v<0?"neg":""}" style="--c:${c.c}"><div class="vc"><span class="vv">${m.s(v)}</span><div class="vb"><i style="width:${w}%"></i></div></div></td>`; }).join("")}</tr>`;
+    }).join("");
+    document.getElementById("vsTable").innerHTML = head + "<tbody>"+body+"</tbody>";
+
+    // ---- pulse chart (TikTok) ----
+    (function(){
+      const s=document.getElementById("pulse");
+      const W=760,H=330,xR=W-60,xL=12,top=70,bot=H-62;
+      const D0=new Date("2026-08-18T00:00:00"), N=39, dayW=(xR-xL)/N;
+      const di=d=>Math.round((new Date(d+"T00:00:00")-D0)/864e5);
+      const xAt=i=> xR - i*dayW;
+      const ymax=8000, Y=v=> bot - v/ymax*(bot-top);
+      s.setAttribute("viewBox",`0 0 ${W} ${H}`);
+      const ar=(x,y,str,cls,anchor)=>{ const t=txt(s,x,y,str,cls,anchor); t.style.direction="rtl"; return t; };
+      for(let v=0;v<=ymax;v+=2000){ el("line",{x1:xL,x2:xR,y1:Y(v),y2:Y(v),class:v?"grid":"axis"},s); txt(s,xR+8,Y(v)+4,v?(v/1000)+"K":"0","","start"); }
+      ar(W-2,top-48,"مشاهدة يومياً","sub","start");
+      [["2026-08-18","18 أغسطس"],["2026-09-01","1 سبتمبر"],["2026-09-15","15 سبتمبر"]].forEach(([d,l])=> ar(xAt(di(d))-dayW/2,bot+16,l,"sub","middle"));
+      [["2026-09-09","افتتاح الفرع · 9 سبتمبر"],["2026-09-23","اليوم الوطني · 23 سبتمبر"]].forEach(([d,l],i)=>{ const x=xAt(di(d))-dayW/2; el("line",{x1:x,x2:x,y1:top-30,y2:bot,class:"ev"},s); el("circle",{cx:x,cy:top-30,r:3,fill:"var(--fg)"},s); ar(i?x-6:x,top-38,l,"evl",i?"end":"middle"); });
+      const tipFor=(c,ghost)=>{ const t=c.tt; const pd=ghost? t.prevViews/c.days : t.perDay;
+        return ghost? `<b>قبل ${c.name}</b><br>${c.days} أيام سابقة · ≈${fmtK(t.prevViews)} مشاهدة<br>≈${fmt(Math.round(pd))} مشاهدة يومياً`
+                    : `<b>${c.name} · ${c.dates}</b><br>${fmtK(t.views)} مشاهدة · ${fmt(Math.round(pd))} يومياً<br>${pct(t.pv)} عن الفترة السابقة`; };
+      tk.forEach(c=>{
+        const s0=di(c.start), n=c.days, t=c.tt;
+        const pd=t.prevViews/n, cd=t.perDay;
+        const gx=xAt(s0)+1, gw=n*dayW-3, sx=xAt(s0+n)+1, sw=n*dayW-3;
+        const g=el("rect",{x:gx,y:Y(pd),width:gw,height:bot-Y(pd),rx:3,fill:c.c,class:"ghost"},s);
+        const b=el("rect",{x:sx,y:Y(cd),width:sw,height:bot-Y(cd),rx:3,fill:c.c},s);
+        txt(s,gx+gw/2,Y(pd)-6,fmtK(Math.round(pd)),"sub","middle");
+        txt(s,sx+sw/2,Y(cd)-22,fmtK(Math.round(cd)),"val","middle");
+        txt(s,sx+sw/2,Y(cd)-8,(t.pv>0?"▲ ":"▼ ")+fmt(Math.abs(t.pv),0)+"%","sub","middle");
+        ar(sx+sw/2,bot+36,c.name,"nm","middle");
+        ar(sx+sw/2,bot+52,c.dates,"sub","middle");
+        [[g,true],[b,false]].forEach(([r,gh])=>{ r.addEventListener("mouseenter",e=>showTip(tipFor(c,gh),e)); r.addEventListener("mousemove",moveTip); r.addEventListener("mouseleave",hideTip); });
+      });
+      const op=byId.opening.tt;
+      document.getElementById("pulseNote").innerHTML = `<b>القراءة:</b> اليوم الوطني سجّل أعلى معدل يومي (${fmtK(Math.round(byId.nd.tt.perDay))}). أما الافتتاح فالأيام التي سبقته (4–6 سبتمبر) كانت أعلى منه: ≈${fmtK(Math.round(op.prevViews/3))} يومياً مقابل ${fmtK(Math.round(op.perDay))}. الاهتمام بلغ ذروته قبل الافتتاح لا خلاله، وهذا أثر حرق تسلسل المقاطع مباشرة.`;
+    })();
+
+    // ---- dossiers ----
+    const stLabel={done:"نُفّذ",issue:"تعثّر",plan:"ضمن الخطة"};
+    const baRows=[["المشاهدات","views","pv","dv"],["زيارات الحساب","profile","pp","dp"],["الإعجابات","likes","pl","dl"],["المشاركات","shares","ps","ds"],["التعليقات","comments","pc","dc"]];
+    const statsTT = c=>{ const t=c.tt; return `
+        <div><span class="l">مشاهدات تيك توك</span><span class="v">${fmtK(t.views)}</span>${deltaHTML(t.pv)}</div>
+        <div><span class="l">متوسط يومي</span><span class="v">${fmt(Math.round(t.perDay))}<small>مشاهدة</small></span><span class="l">${c.days} أيام</span></div>
+        <div><span class="l">زيارات الحساب</span><span class="v">${fmtK(t.profile)}</span>${deltaHTML(t.pp)}</div>
+        <div><span class="l">معدل التفاعل</span><span class="v">${(t.er*100).toFixed(1)}<small>%</small></span><span class="l">${fmt(t.eng)} تفاعل</span></div>`; };
+    const statsIG = c=>{ const g=c.ig; return `
+        <div><span class="l">مشاهدات إنستقرام</span><span class="v">${fmt(g.views)}</span><span class="l">${g.reels} ريلز في ${c.days} يوماً</span></div>
+        <div><span class="l">متوسط الريل</span><span class="v">${fmt(Math.round(g.avg))}<small>مشاهدة</small></span><span class="l">من ${fmtK(wcMin)} إلى ${fmtK(wcMax)}</span></div>
+        <div><span class="l">معدل التفاعل</span><span class="v">${(g.er*100).toFixed(2)}<small>%</small></span><span class="l">${fmt(g.eng)} تفاعل على كل الحملة</span></div>
+        <div><span class="l">المشاركات</span><span class="v">${fmt(g.shares)}</span><span class="l">${fmt(g.likes)} إعجاب · ${g.reposts} إعادة نشر</span></div>`; };
+    const rightTT = c=>{ const t=c.tt; return `<div class="dz-h">قبل الحملة وخلالها<small>تيك توك · كل صف بمقياسه</small></div>
+          <div class="ba">${baRows.map(([l,k,pk,dk])=>{ const cur=t[k], prev=cur-t[dk], mx=Math.max(cur,prev);
+            return `<div class="ba-row"><span>${l}</span><div class="ba-bars"><i class="prev" style="width:${prev/mx*100}%"></i><i class="cur" style="width:${cur/mx*100}%"></i></div><span class="ba-v"><b>${fmtK(cur)} ${deltaHTML(t[pk])}</b><small>كانت ${fmtK(prev)}</small></span></div>`; }).join("")}</div>
+          <div class="ba-key"><span><i style="background:var(--line-strong)"></i> الفترة السابقة</span><span><i style="background:${c.c}"></i> خلال الحملة</span></div>`; };
+    const rightIG = c=> `<div class="dz-h">مشاهدات كل ريل<small>إنستقرام · الأقدم يميناً</small></div>
+          <svg id="wcChart" class="chart" role="img" aria-label="مشاهدات ريلز حملة كأس العالم"></svg>
+          <div class="ba-key"><span><i style="background:${c.c}"></i> ريلز السحب والتوقعات</span><span><i style="background:${c.c};opacity:.45"></i> ريلز أجواء المباريات</span></div>`;
+    const inflBlock = `<div class="dz-infl">
+        <div class="dz-h">حملة المؤثرين · 15 معلناً<small>تقرير الافتتاح الرسمي</small></div>
+        <div class="kpis" id="inflKpis"></div>
+        <div class="grid-2">
+          <div><div class="dz-h" style="font-size:13px">أعلى الحسابات وصولاً<small>المشاهدات · التكلفة</small></div><svg id="inflChart" class="chart" role="img" aria-label="مشاهدات أعلى حسابات حملة الافتتاح"></svg><p style="font-size:12.5px;color:var(--fg-3);margin-top:6px" id="inflNote"></p></div>
+          <div style="display:flex;flex-direction:column;gap:16px"><div><div class="dz-h" style="font-size:13px">تفاعل الحملة</div><div class="hbars" id="inflEng"></div></div>
+            <div><div class="dz-h" style="font-size:13px">تكلفة الألف مشاهدة</div><div class="hbars" id="chanCompare"></div><p style="font-size:12px;color:var(--fg-3);margin-top:8px">مقارنة استرشادية: «المشاهدة» تُحتسب بمعيار مختلف بين ميتا والمؤثرين.</p></div></div>
+        </div></div>`;
+    const echoBlock = c=> `<div class="dz-infl">
+        <div class="dz-h">صدى الآيفونات<small>هل حرّك السحب الجمهور؟</small></div>
+        <div class="echo">
+          <div class="echo-card"><span class="t"><i></i>ريلز السحب والتوقعات · ${give.n}</span><span class="v">${fmt(Math.round(give.avg))} <small>مشاهدة للريل</small></span><span class="s">${fmt(give.comments)} تعليق · ${fmt(give.shares)} مشاركة · ${fmt(give.likes)} إعجاب · تفاعل ${(give.er*100).toFixed(2)}%</span></div>
+          <div class="echo-card"><span class="t"><i class="soft"></i>ريلز أجواء المباريات · ${match.n}</span><span class="v">${fmt(Math.round(match.avg))} <small>مشاهدة للريل</small></span><span class="s">${fmt(match.comments)} تعليقات · ${fmt(match.shares)} مشاركة · ${fmt(match.likes)} إعجاب · تفاعل ${(match.er*100).toFixed(2)}%</span></div>
+        </div>
+        <p class="callout"><b>الخلاصة:</b> ريلز السحب جاءت أقل مشاهدة من ريلز المباريات بنسبة ${((1-give.avg/match.avg)*100).toFixed(0)}%، وجمعت تعليقاً واحداً. صدى الآيفونات على إنستقرام كان محدوداً جداً. إذا كان الدخول للسحب من داخل الفرع، فالقياس الحقيقي في فواتير تلك الأيام، وهي غير موجودة في التقرير.</p>
+        <div class="calc">
+          <label for="iphoneCost">سعر الآيفون الواحد (ر.س)<input id="iphoneCost" type="number" min="0" step="100" value="4000" inputmode="numeric"><small>قيمة افتراضية، عدّلها بالسعر الفعلي</small></label>
+          <div class="calc-out" id="calcOut"></div>
+        </div>
+      </div>`;
+    document.getElementById("wkDossiers").innerHTML = wk.map(c=>`<article class="dossier" id="dz-${c.id}" style="--c:${c.c}">
+      <header class="dz-head">
+        <div><div class="dz-no"><i></i>الحملة ${c.no} من ${wk.length} · ${c.dates}</div>
+          <h3 class="dz-title">${c.name}<span>${c.slogan}</span></h3>
+          <p class="dz-story">${c.story}</p></div>
+        <div class="dz-hero"><span class="verdict">${c.verdict}</span></div>
+      </header>
+      <div class="dz-stats">${c.tt? statsTT(c) : statsIG(c)}</div>
+      <div class="dz-body">
+        <div><div class="dz-h">التنفيذ في الميدان</div><ul class="exec">${c.exec.map(([st,a,b])=>`<li><span class="st ${st}">${stLabel[st]}</span><span>${a}<small>${b}</small></span></li>`).join("")}</ul></div>
+        <div>${c.tt? rightTT(c) : rightIG(c)}</div>
+      </div>
+      ${c.id==="opening"? inflBlock : c.id==="wc"? echoBlock(c) : ""}
+      <div class="dz-lessons">
+        <div class="ok"><h4><b>✓</b>نقاط النجاح</h4><ul>${c.ok.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+        <div class="bad"><h4><b>!</b>نقاط التعثّر</h4><ul>${c.bad.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+        <div class="nx"><h4><b>←</b>للحملة القادمة</h4><ul>${c.nx.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+      </div>
+    </article>`).join("");
+
+    // ---- World Cup per-reel chart ----
+    (function(){
+      const s=document.getElementById("wcChart");
+      const W=600,H=270,xL=40,xR=W-6,top=34,bot=H-58,n=wcReels.length,slot=(xR-xL)/n,bw=slot*0.64;
+      const ymax=Math.ceil(wcMax/5000)*5000, Y=v=> bot - v/ymax*(bot-top);
+      s.setAttribute("viewBox",`0 0 ${W} ${H}`);
+      for(let v=0;v<=ymax;v+=5000){ el("line",{x1:xL,x2:xR,y1:Y(v),y2:Y(v),class:v?"grid":"axis"},s); txt(s,xL-6,Y(v)+4,v?(v/1000)+"K":"0","","end"); }
+      wcReels.forEach((r,i)=>{
+        const cx = xR - slot*(i+0.5), x=cx-bw/2, y=Y(r[2]);
+        const b=el("rect",{x,y,width:bw,height:bot-y,rx:4,fill:"var(--series-4)",opacity:r[7]==="give"?1:.45},s);
+        txt(s,cx,y-6,fmtK(r[2]),"val","middle");
+        if(r===wcBest){ const t=txt(s,cx,y-21,`${wcBestShare.toFixed(0)}% من الحملة`,"sub","middle"); t.style.direction="rtl"; }
+        txt(s,cx,bot+16,r[0],"sub","middle");
+        const er=(r[3]+r[4]+r[5]+r[6])/r[2]*100;
+        txt(s,cx,bot+32,er.toFixed(1)+"%","sub","middle");
+        if(r[7]==="give"){ const t=txt(s,cx,bot+48,"سحب","cat","middle"); t.style.direction="rtl"; t.style.fontSize="11px"; }
+        const html=`<b>${r[1]}</b><br>${r[0]} · ${fmt(r[2])} مشاهدة<br>${r[3]} إعجاب · ${r[4]} تعليق · ${r[6]} مشاركة · ${r[5]} إعادة نشر<br>تفاعل ${er.toFixed(2)}%${r[7]==="give"?"<br>ريل سحب أو توقعات":""}`;
+        const hit=el("rect",{x:cx-slot/2,y:top-20,width:slot,height:bot-top+20,class:"hit"},s);
+        hit.addEventListener("mouseenter",e=>showTip(html,e)); hit.addEventListener("mousemove",moveTip); hit.addEventListener("mouseleave",hideTip);
+      });
+      const t=txt(s,xR,H-2,"الصف الثاني: معدل التفاعل لكل ريل","sub","start"); t.style.direction="rtl";
+    })();
+
+    // ---- iPhone cost calculator ----
+    (function(){
+      const inp=document.getElementById("iphoneCost"), out=document.getElementById("calcOut");
+      const inflCPM=inflCamp.cpv*1000, inflCPE=inflCamp.cpe;
+      function render(){
+        const price=Math.max(0, parseFloat(inp.value)||0), total=price*3;
+        const cpm= total/wcT.views*1000, cpe= total/wcT.eng;
+        out.innerHTML = `<div><span class="l">تكلفة الجوائز</span><span class="v">${fmt(total)} ر.س</span><span class="s">3 آيفونات</span></div>
+          <div><span class="l">تكلفة الألف مشاهدة</span><span class="v">${cpm.toFixed(2)} ر.س</span><span class="s">${total? (cpm/inflCPM).toFixed(1)+"× مؤثري الافتتاح" : "—"}</span></div>
+          <div><span class="l">تكلفة التفاعل الواحد</span><span class="v">${cpe.toFixed(2)} ر.س</span><span class="s">${total? (cpe/inflCPE).toFixed(0)+"× مؤثري الافتتاح" : "—"}</span></div>`;
+      }
+      inp.addEventListener("input",render); render();
+    })();
+
+    // ---- influencer block (inside opening dossier) ----
+    (function(){
+      const c=inflCamp;
+      document.getElementById("inflKpis").innerHTML=[
+        kpiHTML("ميزانية التغطيات", fmt(c.budget), "ر.س", "15 معلناً", true),
+        kpiHTML("إجمالي المشاهدات", (c.views/1e6).toFixed(2)+"M", "", fmt(c.views)+" مشاهدة"),
+        kpiHTML("تكلفة المشاهدة", c.cpv.toFixed(4), "ر.س", "CPM "+(c.cpv*1000).toFixed(2)+" ر.س"),
+        kpiHTML("إجمالي التفاعل", fmt(c.eng), "", "تكلفة التفاعل "+c.cpe.toFixed(2)+" ر.س"),
+        kpiHTML("المشاركات", fmt(c.shares), "", (c.shares/c.eng*100).toFixed(0)+"% من التفاعل"),
+        kpiHTML("الحفظ", fmt(c.saves), "", (c.saves/c.views*100).toFixed(2)+"% من المشاهدات"),
+      ].join("");
+      const s=document.getElementById("inflChart");
+      const top5v=sum(topAcc,"views"), top5c=sum(topAcc,"cost");
+      const rows=[...topAcc].sort((a,b)=>b.views-a.views).concat([{h:"10 حسابات أخرى", views:c.views-top5v, cost:c.budget-top5c, agg:true}]);
+      const W=560,labelW=120,x0=W-labelW,padL=110,plotW=x0-padL,rowH=38,top=16,H=top+rows.length*rowH+30;
+      s.setAttribute("viewBox",`0 0 ${W} ${H}`);
+      const mx=niceMax(Math.max(...rows.map(r=>r.views)));
+      for(let i=0;i<=4;i++){const x=x0-(i/4)*plotW; el("line",{x1:x,x2:x,y1:top-6,y2:H-26,class:"grid"},s); txt(s,x,H-10,fmt(mx*i/4/1000)+"K","","middle");}
+      el("line",{x1:x0,x2:x0,y1:top-6,y2:H-26,class:"axis"},s);
+      const cheapest=topAcc.reduce((a,b)=>a.cost/a.views<b.cost/b.views?a:b);
+      rows.forEach((r,i)=>{
+        const y=top+i*rowH, w=r.views/mx*plotW;
+        const bar=el("rect",{x:x0-w,y:y+4,width:w,height:rowH-14,rx:4,class:"bar"+(r===cheapest?" top":""),opacity:r.agg?.45:1},s);
+        const lab=txt(s,x0+8,y+rowH/2+1,r.h,"cat","start"); if(!r.agg) lab.setAttribute("direction","ltr");
+        txt(s,x0-w-6,y+rowH/2+1,`${fmt(r.views/1000,1)}K · ${fmt(r.cost)} ر.س`,"val","end");
+        const html=`<b>${r.h}</b><br>${fmt(r.views)} مشاهدة · ${fmt(r.cost)} ر.س<br>تكلفة المشاهدة ${(r.cost/r.views).toFixed(4)} ر.س${r.note?"<br>"+r.note:""}`;
+        const hit=el("rect",{x:0,y:y,width:W,height:rowH,class:"hit"},s);
+        hit.addEventListener("mouseenter",e=>{showTip(html,e); s.querySelectorAll(".bar").forEach(b=>b!==bar&&b.classList.add("dim"));}); hit.addEventListener("mousemove",moveTip); hit.addEventListener("mouseleave",()=>{hideTip(); s.querySelectorAll(".bar").forEach(b=>b.classList.remove("dim"));});
+      });
+      document.getElementById("inflNote").textContent=`خمسة حسابات جلبت ${(top5v/c.views*100).toFixed(0)}% من المشاهدات بـ${(top5c/c.budget*100).toFixed(0)}% من الميزانية. الحسابات العشرة الأخرى كلفت ${((c.budget-top5c)/(c.views-top5v)).toFixed(4)} ر.س للمشاهدة، أي ${(((c.budget-top5c)/(c.views-top5v))/(top5c/top5v)).toFixed(1)}× تكلفة الخمسة الأوائل. الأرخص وصولاً: ${cheapest.h} بـ${(cheapest.cost/cheapest.views).toFixed(4)} ر.س للمشاهدة.`;
+      const eng=[["إعجابات",c.likes],["مشاركات",c.shares],["حفظ",c.saves],["تعليقات",c.comments]];
+      document.getElementById("inflEng").innerHTML=eng.map(([l,v])=>`<div class="r"><span>${l}</span><div class="b"><i style="width:${v/c.likes*100}%"></i></div><span class="n">${fmt(v)}</span></div>`).join("");
+      const chans=[["مؤثرو افتتاح وكاد",c.cpv*1000,"15 حساباً · 1.11M"],["إعلانات ميتا · أونا",tot.cpm,"7 حملات · 724K"]];
+      const mxc=Math.max(...chans.map(x=>x[1]));
+      document.getElementById("chanCompare").innerHTML=chans.map(([l,v,sub],i)=>`<div class="r"><span>${l}<small style="display:block;color:var(--fg-3);font-size:11px">${sub}</small></span><div class="b"><i class="${i?"o":""}" style="width:${v/mxc*100}%"></i></div><span class="n">${v.toFixed(2)}<small> ر.س</small></span></div>`).join("");
+    })();
+
+    // ---- Instagram versus table ----
+    (function(){
+      const igm={reels:5, views:47000, likes:5200, shares:814, comments:37, reposts:13};
+      const q=social.wekad, reg={reels:q.reels-igm.reels};
+      ["views","likes","shares","comments","reposts"].forEach(k=> reg[k]=q[k]-igm[k]);
+      const cols=[
+        {n:"كأس العالم", sub:"10 ريلز · 15 – 28 يونيو", c:"var(--series-4)", d:wcT},
+        {n:"شهر الافتتاح واليوم الوطني", sub:"5 ريلز · 11 سبتمبر – 11 أكتوبر", c:"var(--fg-2)", d:igm},
+        {n:"الأيام العادية", sub:"11 ريل · بقية الربع", c:"var(--line-strong)", d:reg},
+      ];
+      cols.forEach(c=>{ const d=c.d; d.er=(d.likes+d.shares+d.comments+d.reposts)/d.views; });
+      const per=k=> d=> d[k]/d.reels;
+      const R=[
+        ["مشاهدات لكل ريل", per("views"), v=>fmt(Math.round(v))],
+        ["إعجابات لكل ريل", per("likes"), v=>fmt(Math.round(v))],
+        ["مشاركات لكل ريل", per("shares"), v=>fmt(v,1)],
+        ["تعليقات لكل ريل", per("comments"), v=>fmt(v,1)],
+        ["إعادة نشر لكل ريل", per("reposts"), v=>fmt(v,1)],
+        ["معدل التفاعل", d=>d.er, v=>(v*100).toFixed(2)+"%"],
+      ];
+      const head=`<thead><tr><th>المقياس</th>${cols.map(c=>`<th style="--c:${c.c}"><i></i>${c.n}<small>${c.sub}</small></th>`).join("")}</tr></thead>`;
+      const body=R.map(([l,f,s])=>{ const vals=cols.map(c=>f(c.d)), mx=Math.max(...vals), wi=vals.indexOf(mx);
+        return `<tr><th>${l}</th>${cols.map((c,i)=>`<td class="${i===wi?"win":""}" style="--c:${c.c}"><div class="vc"><span class="vv">${s(vals[i])}</span><div class="vb"><i style="width:${vals[i]/mx*100}%"></i></div></div></td>`).join("")}</tr>`; }).join("");
+      document.getElementById("igTable").innerHTML=head+"<tbody>"+body+"</tbody>";
+      const [w,m,r]=cols.map(c=>c.d);
+      document.getElementById("igNote").innerHTML=`<b>القراءة:</b> ريل كأس العالم حقق ${(w.er*100).toFixed(2)}% تفاعل، مقابل ${(m.er*100).toFixed(1)}% لريل شهر الافتتاح واليوم الوطني و${(r.er*100).toFixed(1)}% للريل العادي. مشاهداته قريبة من الريل العادي (${fmt(Math.round(w.views/w.reels))} مقابل ${fmt(Math.round(r.views/r.reels))})، لكن إعجاباته أقل ${((r.likes/r.reels)/(w.likes/w.reels)).toFixed(0)} مرات. الآيفونات جلبت المشاهدة ولم تجلب التفاعل، بينما فكرة «صدى العز» جلبت الاثنين بلا جوائز.`;
+    })();
+  })();
+
+  // ---------- Wekad overview ----------
+  (function(){
+    const wcViews=54392, tkViews=24900+7600+35500, igMonth=47000, inflViews=inflCamp.views;
+    const all=wcViews+tkViews+igMonth+inflViews;
+    document.getElementById("kpisWekad").innerHTML=[
+      kpiHTML("مشاهدات موثقة", (all/1e6).toFixed(2)+"M", "", "إنستقرام وتيك توك والمؤثرون", true),
+      kpiHTML("إنفاق موثق", fmt(inflCamp.budget), "ر.س", "المؤثرون فقط · الآيفونات غير مسعّرة"),
+      kpiHTML("الحملات", "4", "", "كأس العالم · التشويق · الافتتاح · اليوم الوطني"),
+    ].join("");
+  })();
+
+  // ---------- Social ----------
+  (function(){
+    const kfmt = n=> n>=1000? (n/1000).toFixed(n%1000===0?0:1)+"K" : fmt(n);
+    document.getElementById("socCards").innerHTML = [social.wekad, social.ona].map((b,i)=>`<div class="card">
+      <div class="brand"><div class="mark${i?" alt":""}">${b.name[0]}</div><div><h3>${b.name}</h3><span class="handle">${b.handle} · ${b.period}</span></div></div>
+      <div class="mini">
+        <div><span class="l">المتابعون</span><span class="v num">${kfmt(b.followers)}</span></div>
+        <div><span class="l">ريلز منشورة</span><span class="v num">${b.reels}</span></div>
+        <div><span class="l">مشاهدات الريلز</span><span class="v num">${kfmt(b.views)}</span></div>
+        <div><span class="l">مشاهدون فريدون</span><span class="v num">${kfmt(b.viewers)}</span></div>
+        <div><span class="l">إجمالي التفاعل</span><span class="v num">${fmt(b.eng)}</span></div>
+        <div><span class="l">تفاعل ÷ مشاهدات</span><span class="v num">${(b.er*100).toFixed(1)}<small>%</small></span></div>
+      </div>
+    </div>`).join("");
+
+    // grouped bars: engagement by type (log-free, absolute, two series)
+    const s=document.getElementById("engChart");
+    const types=[["إعجابات","likes"],["مشاركات","shares"],["حفظ","saves"],["تعليقات","comments"],["إعادة نشر","reposts"]];
+    const W=520,labelW=90,x0=W-labelW,padL=50,plotW=x0-padL,grp=46,top=14,H=top+types.length*grp+28;
+    s.setAttribute("viewBox",`0 0 ${W} ${H}`);
+    const mx=niceMax(social.wekad.likes);
+    for(let i=0;i<=4;i++){const x=x0-(i/4)*plotW; el("line",{x1:x,x2:x,y1:top-4,y2:H-24,class:"grid"},s); txt(s,x,H-8,fmt(mx*i/4),"","middle");}
+    el("line",{x1:x0,x2:x0,y1:top-4,y2:H-24,class:"axis"},s);
+    types.forEach(([l,k],i)=>{
+      const y=top+i*grp; txt(s,x0+8,y+grp/2+2,l,"cat","start");
+      [["wekad","var(--series-1)"],["ona","var(--series-2)"]].forEach(([b,c],j)=>{
+        const v=social[b][k], w=Math.max(2,v/mx*plotW), yy=y+4+j*20;
+        const r=el("rect",{x:x0-w,y:yy,width:w,height:16,rx:4,fill:c},s);
+        txt(s,x0-w-6,yy+12,fmt(v),"val","end");
+        const html=`<b>${social[b].name} · ${l}</b><br>${fmt(v)} · ${(v/social[b].eng*100).toFixed(1)}% من تفاعل الحساب`;
+        r.addEventListener("mouseenter",e=>showTip(html,e)); r.addEventListener("mousemove",moveTip); r.addEventListener("mouseleave",hideTip);
+      });
+    });
+
+    // per reel
+    const pr=document.getElementById("perReel");
+    const rows=[["مشاهدات لكل ريل","vpr",0],["تفاعل لكل ريل","epr",0],["مشاركة لكل إعجاب","shareRatio",2]];
+    pr.innerHTML = rows.map(([l,k,d])=>{ const mx=Math.max(social.wekad[k],social.ona[k]); return [["wekad",""],["ona","o"]].map(([b,c],j)=>`<div class="r"><span>${j?"":l}<small style="display:block;color:var(--fg-3);font-size:11px">${social[b].name}</small></span><div class="b"><i class="${c}" style="width:${social[b][k]/mx*100}%"></i></div><span class="n">${d? social[b][k].toFixed(d): fmt(Math.round(social[b][k]))}</span></div>`).join(""); }).join("");
+
+    // demographics
+    const hb=(arr,id)=>{ const mx=Math.max(...arr.map(a=>a[1])); document.getElementById(id).innerHTML=arr.map(([l,v])=>`<div class="r"><span>${l}</span><div class="b"><i style="width:${v/mx*100}%;${l==="أخرى"?"background:var(--line-strong)":""}"></i></div><span class="n">${v.toFixed(1)}<small>%</small></span></div>`).join(""); };
+    hb(ages,"ageBars"); hb(cities,"cityBars");
+  })();
+
+  // ---------- Influencers ----------
+  (function(){
+    const box=document.getElementById("infl"); const mx=Math.max(...infl.map(i=>i.hi));
+    box.innerHTML = infl.map(i=>`<div class="row"><div class="h">${i.h}<small>${i.u}</small></div><div class="bar" style="position:relative"><i class="rng" style="width:${i.hi/mx*100}%;position:absolute;inset-inline-start:0"></i><i style="width:${i.lo/mx*100}%;position:absolute;inset-inline-start:0"></i></div><div class="p">${i.lo===i.hi? fmt(i.lo) : fmt(i.lo)+" – "+fmt(i.hi)}</div></div>`).join("");
+    const lo=sum(infl,"lo"), hi=sum(infl,"hi");
+    document.getElementById("inflSum").innerHTML = `<span>إجمالي ميزانية التغطيات (6 مؤثرين)</span><b class="num">${fmt(lo)} – ${fmt(hi)} ر.س</b>`;
+  })();
+
+  // ---------- Plan impact (Aug campaigns vs rest) ----------
+  (function(){
+    const s=document.getElementById("planImpact");
+    const aug = camps.filter(c=>c.date.startsWith("2026-08")), rest = camps.filter(c=>!c.date.startsWith("2026-08"));
+    const data=[{l:"حملات أغسطس (5)",v:sum(aug,"results"),sp:sum(aug,"spend")},{l:"حملات يوليو (2)",v:sum(rest,"results"),sp:sum(rest,"spend")}];
+    const W=420,H=110,labelW=130,x0=W-labelW,padL=40,plotW=x0-padL,rowH=42,top=10;
+    s.setAttribute("viewBox",`0 0 ${W} ${H}`);
+    const mx=niceMax(Math.max(...data.map(d=>d.v)));
+    for(let i=0;i<=2;i++){const x=x0-(mx*i/2/mx)*plotW; el("line",{x1:x,x2:x,y1:top,y2:H-20,class:"grid"},s); txt(s,x,H-4,fmt(mx*i/2),"","middle");}
+    data.forEach((d,i)=>{ const y=top+i*rowH, w=d.v/mx*plotW; el("rect",{x:x0-w,y:y+6,width:w,height:rowH-16,class:"bar"+(i===0?" top":""),rx:4},s); txt(s,x0+8,y+rowH/2+2,d.l,"cat","start"); txt(s,x0-w-6,y+rowH/2+2,fmt(d.v)+" نتيجة","val","end"); });
+    document.getElementById("planImpactNote").textContent = `حملات أغسطس (المحور الرئيسي للخطة) جلبت ${fmt(data[0].v)} نتيجة بإنفاق ${fmt(data[0].sp,0)} ر.س، أي ${(data[0].v/tot.results*100).toFixed(0)}% من إجمالي النتائج.`;
+  })();
+
+  // ---------- Insights ----------
+  (function(){
+    const withR = camps.filter(c=>c.cpr);
+    const best = withR.reduce((a,b)=>a.cpr<b.cpr?a:b), worst = withR.reduce((a,b)=>a.cpr>b.cpr?a:b);
+    const top = camps.reduce((a,b)=>a.views>b.views?a:b);
+    const stageNames=["مشاهدة المنتج","الإضافة للسلة","تأكيد الطلب","إتمام الشراء"];
+    const minI = zid.f.indexOf(Math.min(...zid.f));
+    const cards=[
+      {c:"good",k:"أفضل كفاءة",t:`«${best.short}» بتكلفة ${best.cpr.toFixed(2)} ر.س للنتيجة`,d:`أرخص من متوسط الحساب (${tot.cpr.toFixed(2)} ر.س) بنسبة ${((1-best.cpr/tot.cpr)*100).toFixed(0)}%. رسالة البحر والقهوة تستحق إعادة التمويل بميزانية أعلى.`},
+      {c:"",k:"أكبر وصول",t:`«${top.short}» وصلت إلى ${fmt(top.reach)} شخصاً`,d:`${(top.views/tot.views*100).toFixed(0)}% من إجمالي المشاهدات و${(top.spend/tot.spend*100).toFixed(0)}% من الإنفاق. بوكسات الصيف هي المنتج الأقوى إعلانياً في الفترة.`},
+      {c:"warn",k:"أضعف كفاءة",t:`«${worst.short}» بتكلفة ${worst.cpr.toFixed(2)} ر.س للنتيجة`,d:`أعلى من المتوسط بنسبة ${((worst.cpr/tot.cpr-1)*100).toFixed(0)}%. رسالة الهدايا تحتاج إعادة صياغة أو جمهوراً مختلفاً قبل تكرارها.`},
+      {c:"warn",k:"عنق الزجاجة في المتجر",t:`${(zid.f[minI]*100).toFixed(1)}% فقط من الزيارات تشاهد منتجاً`,d:`بقية المراحل صحية (29% إلى السلة، 53% تأكيد، 56% إتمام). رفع مشاهدة المنتج إلى 20% يعني نحو ${fmt(Math.round(zid.sessions*.2*zid.f[1]*zid.f[2]*zid.f[3]))} طلب بدل ${zid.orders} بنفس الزيارات.`},
+      {c:"",k:"قيمة الطلب",t:`متوسط الطلب ${z.aov.toFixed(0)} ر.س · ${z.opc.toFixed(2)} طلب لكل عميل`,d:`تكرار الشراء منخفض: ${zid.customers} عميلاً أنتجوا ${zid.orders} طلباً. فرصة واضحة لبرنامج إعادة شراء على البن المحمص.`},
+      {c:"",k:"المصادر",t:"50% من الزيارات مباشرة",d:"إما قوة براند حقيقية أو غياب وسوم تتبع على روابط ميتا. أضف UTM لكل إعلان لمعرفة ما تدفعه الإعلانات فعلياً إلى المتجر."},
+      {c:"good",k:"خطة وكاد",t:`ميزانية مؤثرين ${fmt(sum(infl,"lo"))} – ${fmt(sum(infl,"hi"))} ر.س`,d:`تعادل ${(sum(infl,"hi")/tot.spend).toFixed(1)}× إنفاق ميتا للربع كله على أونا. اربط كل تغطية بكود خصم خاص لقياسها بنفس دقة الإعلانات.`},
+      {c:"good",k:"المنتج البطل",t:`بوكس الثلاثي يصنع ${(13268/zid.sales*100).toFixed(0)}% من مبيعات المتجر`,d:`129 قطعة بقيمة 13,268 ر.س، ثم ETHIO BOX بـ ${(4796/zid.sales*100).toFixed(0)}%. المنتجان معاً أكثر من 80% من الإيراد؛ أي حملة قادمة للمتجر يجب أن تبدأ منهما، مع اختبار بوكس البحر لأن حملات البحر كانت الأكفأ إعلانياً.`},
+      {c:"",k:"جغرافيا المتجر",t:"الرياض أول مدينة في مبيعات أونا",d:`الرياض 28 طلباً بقيمة 3,342 ر.س، بينما المنطقة الشرقية (الدمام والخبر والقطيف والمبرز) مجتمعة ${fmt(24+21+12+10)} طلباً و${fmt(2818.5+2617.5+1328.5+1120.5,0)} ر.س. المتجر يفتح باباً خارج الشرقية لا تفتحه الفروع.`},
+      {c:"good",k:"جودة التشغيل",t:`${(181/zid.orders*100).toFixed(1)}% من الطلبات وصلت`,d:"طلب واحد ملغى وطلب واحد قيد التوصيل من 183. التشغيل ليس عائقاً؛ التحدي كله في أعلى القمع (مشاهدة المنتج) وفي تكرار الشراء."},
+      {c:"warn",k:"النمط عبر أربع حملات",t:"الفكرة تنتشر، والجائزة وحدها لا تكفي، والتشغيل يتعثر كل مرة",d:"«صدى العز» انتشرت بلا جوائز، بينما ثلاثة آيفونات في كأس العالم لم تجلب إلا 7 تعليقات. وفي كل حملة تعثّر التشغيل: تصاريح، تأخير تركيب ومطبوعات، نفاد أكواب، ونقص طاقم. أول استثمار في الحملة القادمة هو جاهزية الفرع."},
+      {c:"good",k:"وكاد على إنستقرام",t:`${fmt(Math.round(social.wekad.vpr))} مشاهدة لكل ريل · تفاعل ${(social.wekad.er*100).toFixed(1)}%`,d:`16 ريلز في ثلاثة أشهر أنتجت 113 ألف مشاهدة و${fmt(social.wekad.eng)} تفاعلاً. الوتيرة الأسبوعية هي ما يصنع الفرق، وجمهور 25–34 (53%) هو الجمهور الأساسي لأي حملة قادمة.`},
+      {c:"warn",k:"أونا على إنستقرام",t:`4 ريلز فقط في شهرين · ${fmt(Math.round(social.ona.vpr))} مشاهدة لكل ريل`,d:`نسبة المشاركة إلى الإعجاب عالية (${social.ona.shareRatio.toFixed(2)} مقابل ${social.wekad.shareRatio.toFixed(2)} لوكاد)، أي أن المحتوى يُشارك عندما ينزل. المشكلة في الكمية لا الجودة: الهدف 8 ريلز شهرياً مرتبطة بالمتجر.`},
+      {c:"",k:"جغرافيا وكاد",t:"53% من الجمهور في الدمام والخبر",d:"الفرع الجديد في الشعلة والكورنيش يقع داخل نطاق الجمهور الحالي. الرياض 6.8% فقط، فحملة الافتتاح يجب أن تُستهدف جغرافياً في المنطقة الشرقية."},
+      {c:"",k:"الحملات المتوقفة",t:"حملتان من 29 أغسطس لا يتم عرضهما",d:"«اليوم الوطني» و«من أونا لأهلنا» موسميتان وانتهت مناسبتهما. يُفضّل أرشفتهما بدل إبقائهما متوقفتين داخل الحساب."},
+    ];
+    const wekadKs=["النمط عبر أربع حملات","وكاد على إنستقرام","جغرافيا وكاد","خطة وكاد"];
+    const card=c=>`<div class="ins ${c.c}"><span class="k">${c.k}</span><span class="t">${c.t}</span><span class="d">${c.d}</span></div>`;
+    document.getElementById("insightCards").innerHTML = `<h3 class="ins-group">أونا</h3><div class="insights">${cards.filter(c=>!wekadKs.includes(c.k)).map(card).join("")}</div><h3 class="ins-group">وكاد</h3><div class="insights" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))">${wekadKs.map(k=>cards.find(c=>c.k===k)).filter(Boolean).map(card).join("")}</div>`;
+  })();
+
+  // ---------- nav highlight ----------
+  const links=[...document.querySelectorAll("#nav a")], secs=links.map(a=>document.querySelector(a.getAttribute("href")));
+  if("IntersectionObserver" in window){
+    const io=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ links.forEach(a=>a.classList.toggle("active", a.getAttribute("href")==="#"+e.target.id)); } }); },{rootMargin:"-30% 0px -60% 0px"});
+    secs.forEach(s=>io.observe(s));
+  }
+  document.addEventListener("scroll",hideTip,{passive:true});
+})();
+</script>
+</body>
+</html>
