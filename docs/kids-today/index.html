@@ -82,7 +82,12 @@ h1 span{color:var(--sand)}
 .goal-head{display:grid;grid-template-columns:1fr 1.2fr;gap:24px;align-items:end}
 .goal-head p{margin:0;color:var(--muted);font-size:15.5px;max-width:60ch}
 .goal-head p strong{color:var(--fg);font-weight:600}
-.trust-now{display:flex;flex-direction:column;gap:8px}
+.trust-now{display:flex;flex-direction:column;gap:16px}
+.tn-row{display:flex;flex-direction:column;gap:6px}
+.tn-row.focus .tn-lab span:first-child{color:var(--fg);font-weight:600}
+.q p.bench{border-top:1px solid var(--line);padding-top:8px;margin-top:2px}
+.q p.bench b{color:var(--accent)}
+.matrix th small{display:block;color:var(--sand);font-size:11.5px;font-weight:600}
 .tn-lab{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);gap:8px;flex-wrap:wrap}
 .tn-lab b{color:var(--fg);font-weight:600}
 .tn-bar{display:flex;height:26px;border-radius:7px;overflow:hidden;gap:2px;background:var(--panel-2)}
@@ -364,19 +369,16 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:13.5px;color:
           <span class="k" style="font-size:13.5px;color:var(--sand);font-weight:600;display:block;margin-bottom:4px">هدف الدراسة</span>
           <h2>نرفع ثقة الأهالي بالروضة</h2>
         </div>
-        <p>ولي الأمر ما يسجّل طفله لأن الحساب حلو، يسجّل لأنه <strong>اطمأن</strong>. الحساب اليوم يعرض لحظات حلوة وتصوير ممتاز، لكنه ما يجاوب الأسئلة اللي يسألها ولي الأمر قبل ما يقرر. كل إصلاح في هذي اللوحة مربوط بسؤال من الأسئلة الست تحت.</p>
+        <p>ولي الأمر ما يسجّل طفله لأن الحساب حلو، يسجّل لأنه <strong>اطمأن</strong>. الحساب اليوم يعرض لحظات حلوة وتصوير ممتاز، لكنه ما يجاوب الأسئلة اللي يسألها ولي الأمر قبل ما يقرر. كل إصلاح في هذي اللوحة مربوط بسؤال من الأسئلة الست تحت، ومع كل سؤال وش سوّت <strong>تلال الظهران</strong>، أقرب نموذج لنا بالهايلايتس ومعلومات التسجيل.</p>
       </div>
-      <div class="trust-now">
-        <div class="tn-lab"><span>مؤشرات الثقة عند Kids Today اليوم، من <b>15</b> مؤشر</span><span><b style="color:var(--good)">3</b> موجودة · <b style="color:var(--warn)">5</b> جزئية · <b style="color:var(--bad)">6</b> غائبة · 1 ما رُصد</span></div>
-        <div class="tn-bar" aria-hidden="true"><div class="ok" style="flex:3">3</div><div class="part" style="flex:5">5</div><div class="miss" style="flex:6">6</div><div class="na" style="flex:1"></div></div>
-      </div>
+      <div class="trust-now" id="trustNow"></div>
       <div class="qs">
-        <div class="q"><header><h3>«مين يعلّم طفلي؟»</h3><span class="mark bad">✗</span></header><p>اليوم: <b>ما نذكر المعلمات ولا مؤهلاتهن.</b></p><p class="fix">الحل: <b>ريل «عرّفوا على معلمة» كل ثلاثاء، وهايلايت «فريقنا».</b></p></div>
-        <div class="q"><header><h3>«وش بيتعلم عندكم؟»</h3><span class="mark bad">✗</span></header><p>اليوم: <b>الكابشن قصير وبالإنجليزي، ما يشرح الهدف من النشاط.</b></p><p class="fix">الحل: <b>كابشن عربي يذكر المهارة المكتسبة، وهايلايت «المنهج».</b></p></div>
-        <div class="q"><header><h3>«الروضة مرخصة ورسمية؟»</h3><span class="mark bad">✗</span></header><p>اليوم: <b>لا ترخيص ولا أعمار ولا مراحل في البايو.</b></p><p class="fix">الحل: <b>الترخيص والأعمار والمراحل ورابط التسجيل في البايو، وهايلايت «التسجيل والرسوم» مثل مركز التلال.</b></p></div>
-        <div class="q"><header><h3>«الروضة حيّة أو واقفة؟»</h3><span class="mark warn">~</span></header><p>اليوم: <b>انقطاعات 44 يوم و21 يوم عن النشر.</b></p><p class="fix">الحل: <b>3 بوستات بالأسبوع: الأحد والثلاثاء والخميس.</b></p></div>
-        <div class="q"><header><h3>«أحد يرد عليّ لو سألت؟»</h3><span class="mark bad">✗</span></header><p>اليوم: <b>سؤالين عن التسجيل في البوست المثبت بدون رد.</b></p><p class="fix">الحل: <b>الرد خلال 24 ساعة، وهايلايت «الأسئلة الشائعة».</b></p></div>
-        <div class="q"><header><h3>«الأهالي الثانين يوصون فيها؟»</h3><span class="mark good">✓</span></header><p>اليوم: <b>تعليقات حقيقية بأسماء الأطفال، وشراكات مع التميمي وجامعة الإمام.</b></p><p class="fix">نستثمرها: <b>شهادة ولي أمر أو تطور طفل كل شهر، بموافقة أهله.</b></p></div>
+        <div class="q"><header><h3>«مين يعلّم طفلي؟»</h3><span class="mark bad">✗</span></header><p>اليوم: <b>ما نذكر المعلمات ولا مؤهلاتهن.</b></p><p class="fix">الحل: <b>ريل «عرّفوا على معلمة» كل ثلاثاء، وهايلايت «فريقنا».</b></p><p class="bench">تلال الظهران: <b>هايلايت «التطوير المهني للمعلمات»، بدون أسماء.</b></p></div>
+        <div class="q"><header><h3>«وش بيتعلم عندكم؟»</h3><span class="mark bad">✗</span></header><p>اليوم: <b>الكابشن قصير وبالإنجليزي، ما يشرح الهدف من النشاط.</b></p><p class="fix">الحل: <b>كابشن عربي يذكر المهارة المكتسبة، وهايلايت «المنهج».</b></p><p class="bench">تلال الظهران: <b>كابشن قصصي يحكي اليوم، مثل «مملكة الحكايات» اللي جاب 1,983 مشاهدة.</b></p></div>
+        <div class="q"><header><h3>«الروضة مرخصة ورسمية؟»</h3><span class="mark bad">✗</span></header><p>اليوم: <b>لا ترخيص ولا أعمار ولا مراحل في البايو.</b></p><p class="fix">الحل: <b>الترخيص والأعمار والمراحل ورابط التسجيل في البايو، وهايلايت «التسجيل والرسوم».</b></p><p class="bench">تلال الظهران: <b>المراحل واضحة من Nursery إلى KG3، وهايلايت آلية التسجيل والرسوم، ومسنودين باسم مدارس تلال الظهران.</b></p></div>
+        <div class="q"><header><h3>«الروضة حيّة أو واقفة؟»</h3><span class="mark warn">~</span></header><p>اليوم: <b>انقطاعات 44 يوم و21 يوم عن النشر.</b></p><p class="fix">الحل: <b>3 بوستات بالأسبوع: الأحد والثلاثاء والخميس.</b></p><p class="bench">تلال الظهران: <b>نفس المشكلة. آخر نشر 23 سبتمبر، متوقفين من شهر.</b></p></div>
+        <div class="q"><header><h3>«أحد يرد عليّ لو سألت؟»</h3><span class="mark bad">✗</span></header><p>اليوم: <b>سؤالين عن التسجيل في البوست المثبت بدون رد.</b></p><p class="fix">الحل: <b>الرد خلال 24 ساعة، وهايلايت «الأسئلة الشائعة».</b></p><p class="bench">تلال الظهران: <b>ما رصدنا ردود، لكن عندهم هايلايتس وسائل التواصل والموقع والوظائف.</b></p></div>
+        <div class="q"><header><h3>«الأهالي الثانين يوصون فيها؟»</h3><span class="mark good">✓</span></header><p>اليوم: <b>تعليقات حقيقية بأسماء الأطفال، وشراكات مع التميمي وجامعة الإمام.</b></p><p class="fix">نستثمرها: <b>شهادة ولي أمر أو تطور طفل كل شهر، بموافقة أهله.</b></p><p class="bench">تلال الظهران: <b>ما رصدنا آراء أهالي، لكنهم يخفون التعليقات الإعلانية عشان ما تشوّه الصفحة.</b></p></div>
       </div>
       <p class="caveat">الإصلاحات والخطة الأسبوعية تغطي 9 من 11 مؤشر ناقص. الباقي: الكابشن بالعربي (توصيتنا من التحليل الأول)، وتفاعل الجمهور اللي يجي نتيجة لكل اللي فوق. التفصيل كامل في مصفوفة الثقة تحت.</p>
     </div>
@@ -404,7 +406,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:13.5px;color:
       <div class="ex"><span class="mark bad">3</span><div><h3>التفاعل ضعيف</h3><p>37 إعجاب بالمتوسط، يعني 0.25% من المتابعين.</p></div></div>
       <div class="ex"><span class="mark bad">4</span><div><h3>الثقة التعليمية ناقصة</h3><p>ما نذكر المعلمات ولا المنهج ولا الترخيص.</p></div></div>
       <div class="ex"><span class="mark bad">5</span><div><h3>فرص تسجيل ضايعة</h3><p>سؤالين عن التسجيل في البوست المثبت بدون رد.</p></div></div>
-      <div class="ex"><span class="mark bad">6</span><div><h3>منافسين متقدمين بالهايلايتس</h3><p>مركز التلال (روضة تلال الظهران) والرضوان متقدمين علينا بالهايلايتس ومعلومات التسجيل.</p></div></div>
+      <div class="ex"><span class="mark bad">6</span><div><h3>منافسين متقدمين بالهايلايتس</h3><p>تلال الظهران (مركز التلال) والرضوان متقدمين علينا بالهايلايتس ومعلومات التسجيل.</p></div></div>
       <div class="ex good"><span class="mark good">+</span><div><h3>ميزتنا</h3><p>جودة التصوير، والهوية البصرية، والشراكات، وتعليقات الأهالي.</p></div></div>
     </div>
   </section>
@@ -486,7 +488,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:13.5px;color:
       <div>
         <span class="k">فجوة الوصول</span>
         <h2>من كل 100 متابع، كم واحد يشوف الريل؟</h2>
-        <p>كل نقطة تمثل متابع واحد من مئة. الرضوان وكيان الغد يوصلون لـ 40% من جمهورهم، وKids Today لـ 19%، وأجيال المواهب في الدمام لـ 5% فقط. مركز التلال وروضة عُمان يتجاوزون المئة لأن حساباتهم صغيرة ومشاهداتهم تجي من خارج متابعينهم.</p>
+        <p>كل نقطة تمثل متابع واحد من مئة. الرضوان وكيان الغد يوصلون لـ 40% من جمهورهم، وKids Today لـ 19%، وأجيال المواهب في الدمام لـ 5% فقط. تلال الظهران وروضة عُمان يتجاوزون المئة لأن حساباتهم صغيرة ومشاهداتهم تجي من خارج متابعينهم.</p>
       </div>
     </div>
     <div class="gap" id="gap"></div>
@@ -538,7 +540,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:13.5px;color:
     <div class="panel">
       <div class="tbl-wrap">
         <table class="matrix" id="matrix">
-          <thead><tr><th>المؤشر</th><th class="focus">Kids Today</th><th>الرضوان</th><th>مركز التلال</th><th>أجيال المواهب</th><th>كيان الغد</th><th>روضة عُمان</th></tr></thead>
+          <thead><tr><th>المؤشر</th><th class="focus">Kids Today</th><th>الرضوان</th><th>تلال الظهران<small>النموذج الأقرب</small></th><th>أجيال المواهب</th><th>كيان الغد</th><th>روضة عُمان</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -681,7 +683,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:13.5px;color:
       take:'هايلايتس خدمة للأهالي، وذكر المعلمة باسمها في كل بوست.',
       strengths:['ينشرون باستمرار، وهذا لحاله يطمّن ولي الأمر إن المدرسة «حيّة».','الهايلايتس مركز خدمة: رؤية المدرسة، مجلس الأمهات، التعاميم، توقيت الدوام، واتساب الصفوف، الإنماء المهني.','المنسقات الإعلاميات بالاسم في البايو، والمعلمة المشرفة في كل بوست.','هاشتاقات الوزارة تربط الحساب بجهة رسمية.'],
       weaknesses:['الإعجابات قليلة.','تعليقات إعلانية من حسابات ثانية ما أحد حذفها.','التصميم حكومي وتقليدي.']},
-    {id:'tl',name:'مركز التلال',sub:'روضة تلال الظهران · الظهران',init:'ت',followers:375,posts:42,views:839,likes:[11,37],status:'warn',statusLabel:'متوقف من شهر · آخر نشر 23 سبتمبر',tag:'أكمل هايلايتس',
+    {id:'tl',name:'تلال الظهران',sub:'مركز التلال · الظهران',init:'ت',followers:375,posts:42,views:839,likes:[11,37],status:'warn',statusLabel:'متوقف من شهر · آخر نشر 23 سبتمبر',tag:'أكمل هايلايتس',
       stages:'Nursery – Pre-KG – KG1 – KG2 – KG3',
       verdict:'هايلايتس كاملة وجمهور صغير يعتمد على المدرسة الأم.',
       take:'هايلايتس التسجيل والرسوم والتطوير المهني، وتوضيح المراحل، والكابشن القصصي.',
@@ -734,10 +736,10 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:13.5px;color:
 
   /* head to head */
   const M=[
-    {key:'followers',label:'المتابعين',get:a=>a.followers,fmt:v=>num(v),note:'Kids Today عنده أكثر من ضعف جمهور أقرب منافس، وقرابة 40 ضعف مركز التلال. الحجم مو المشكلة أبداً.'},
+    {key:'followers',label:'المتابعين',get:a=>a.followers,fmt:v=>num(v),note:'Kids Today عنده أكثر من ضعف جمهور أقرب منافس، وقرابة 40 ضعف تلال الظهران. الحجم مو المشكلة أبداً.'},
     {key:'views',label:'متوسط مشاهدات الريل',get:a=>a.views,fmt:v=>num(v),none:'ما عندهم ريلز',note:'Kids Today الأول بالمشاهدات بين الستة، لكن بفارق بسيط عن الرضوان مع إن جمهوره أكبر بضعفين ونص. أجيال المواهب في الدمام عنده 6.5 ألف متابع و306 مشاهدة بس.'},
-    {key:'vr',label:'نسبة الوصول',get:a=>a.vr,fmt:v=>pct(v),cap:1,none:'ما عندهم ريلز',note:'مركز التلال وروضة عُمان فوق المئة لأن حساباتهم صغيرة ومشاهداتهم تجي من غير المتابعين، والتلال غالباً من نشر المدرسة الأم. الرضوان وكيان الغد 40%، وKids Today 19%، وأجيال المواهب 5%.'},
-    {key:'posts',label:'المنشورات',get:a=>a.posts,fmt:v=>num(v),none:'غير مرصود',note:'الرضوان نشر 1,756 منشور مقابل 15 عند Kids Today. حتى مركز التلال بـ 375 متابع عنده 42 منشور.'},
+    {key:'vr',label:'نسبة الوصول',get:a=>a.vr,fmt:v=>pct(v),cap:1,none:'ما عندهم ريلز',note:'تلال الظهران وروضة عُمان فوق المئة لأن حساباتهم صغيرة ومشاهداتهم تجي من غير المتابعين، والتلال غالباً من نشر المدرسة الأم. الرضوان وكيان الغد 40%، وKids Today 19%، وأجيال المواهب 5%.'},
+    {key:'posts',label:'المنشورات',get:a=>a.posts,fmt:v=>num(v),none:'غير مرصود',note:'الرضوان نشر 1,756 منشور مقابل 15 عند Kids Today. حتى تلال الظهران بـ 375 متابع عنده 42 منشور.'},
     {key:'likes',label:'الإعجابات للبوست',get:a=>a.likeMid,fmt:(v,a)=>likesRange(a),note:'Kids Today الأعلى بالإعجابات المطلقة، لكن 37 إعجاب قدام 14.9 ألف متابع رقم ضعيف. المنافس المباشر في الدمام أضعف: 2 إلى 4.'},
     {key:'lr',label:'الإعجابات ÷ المتابعين',get:a=>a.lr,fmt:v=>pct2(v),note:'معدل تفاعل Kids Today 0.25%: أقل من كل الحسابات ما عدا أجيال المواهب. الحسابات الصغيرة نسبتها أعلى طبيعياً لأن جمهورها قريب منها.'}
   ];
@@ -789,6 +791,11 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:13.5px;color:
   document.querySelector('#matrix tbody').innerHTML=R.map(r=>`<tr><td>${r[0]}<small>${r[1]}</small></td>${r.slice(2).map((c,i)=>{if(c[0]!=='-')counts[i][c[0]]++;const s=sym[c[0]];return `<td class="c ${i===0?'focus':''}"><span class="${s[1]}">${s[0]}</span>${c[1]?`<small>${c[1]}</small>`:''}</td>`;}).join('')}</tr>`).join('')
     +`<tr class="sum"><td>الحصيلة<small>✓ / ~ / ✗ من ${R.length} مؤشر</small></td>${counts.map((c,i)=>`<td class="c ${i===0?'focus':''}"><span class="yes">${c.y}</span><span class="na">/</span><span class="part">${c.p}</span><span class="na">/</span><span class="no">${c.n}</span></td>`).join('')}</tr>`;
 
+  /* trust bars in the goal panel: Kids Today vs the closest model (تلال الظهران), computed from the same matrix */
+  const tnBar=(label,c,focus)=>{const na=R.length-c.y-c.p-c.n;
+    return `<div class="tn-row ${focus?'focus':''}"><div class="tn-lab"><span>${label}</span><span><b style="color:var(--good)">${c.y}</b> موجودة · <b style="color:var(--warn)">${c.p}</b> جزئية · <b style="color:var(--bad)">${c.n}</b> غائبة · ${na} ما رُصد</span></div><div class="tn-bar" aria-hidden="true">${c.y?`<div class="ok" style="flex:${c.y}">${c.y}</div>`:''}${c.p?`<div class="part" style="flex:${c.p}">${c.p}</div>`:''}${c.n?`<div class="miss" style="flex:${c.n}">${c.n}</div>`:''}${na?`<div class="na" style="flex:${na}"></div>`:''}</div></div>`;};
+  document.getElementById('trustNow').innerHTML=tnBar('Kids Today اليوم، من '+R.length+' مؤشر',counts[A.findIndex(a=>a.id==='kt')],true)+tnBar('النموذج الأقرب: تلال الظهران',counts[A.findIndex(a=>a.id==='tl')],false);
+
   /* competitor reads */
   document.getElementById('reads').innerHTML=A.filter(a=>!a.focus).map(a=>`
     <article class="read">
@@ -817,7 +824,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:13.5px;color:
   /* verdict */
   const V=[
     ['Kids Today','المحتوى هو العائق، مو الجمهور','14,900 متابع يشوف منهم 19% فقط، لأن المحتوى 15 منشور بانقطاعات طويلة وكابشن إنجليزي. الإيقاع الثابت والكابشن العربي أول الحل.'],
-    ['الرضوان ومركز التلال','متقدمين علينا بالهايلايتس ومعلومات التسجيل','الرضوان ينشر باستمرار ويذكر المعلمة بالاسم، ومركز التلال هايلايتسه كاملة: التسجيل والرسوم والمراحل والتطوير المهني. هذا اللي يطمّن ولي الأمر قبل ما يسأل.'],
+    ['الرضوان وتلال الظهران','متقدمين علينا بالهايلايتس ومعلومات التسجيل','الرضوان ينشر باستمرار ويذكر المعلمة بالاسم، وتلال الظهران هايلايتسه كاملة: التسجيل والرسوم والمراحل والتطوير المهني. هذا اللي يطمّن ولي الأمر قبل ما يسأل.'],
     ['أجيال المواهب','المنافس المباشر ضعيف','6,505 متابع ووصول 5% في الدمام. الفرصة قائمة إن Kids Today يصير الحساب التعليمي الأقوى في المدينة خلال 3 شهور.']
   ];
   document.getElementById('verdict').innerHTML=V.map(v=>`<div class="v-item"><span class="who-t">${v[0]}</span><h4>${v[1]}</h4><p>${v[2]}</p></div>`).join('');
