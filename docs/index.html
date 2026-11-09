@@ -77,13 +77,27 @@ p{margin:0}
 /* nav */
 .nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:4px;overflow-x:auto;padding-block:10px;margin-block:0 22px;border-bottom:1px solid var(--line);scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
-.nav a{flex:0 0 auto;text-decoration:none;color:var(--fg-2);padding:8px 14px;border-radius:10px;font-weight:500;font-size:14px}
+.nav a{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--fg-2);padding:8px 12px;border-radius:10px;font-weight:500;font-size:14px}
+.nav a i{font-style:normal;width:20px;height:20px;border-radius:6px;display:grid;place-items:center;background:var(--surface-2);color:var(--fg-2);font-size:11.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.nav a.active i{background:color-mix(in srgb,var(--bg) 22%,transparent);color:var(--bg)}
 .nav a:hover,.nav a:focus-visible{background:var(--surface-2);color:var(--fg);outline:none}
 .nav a.active{background:var(--fg);color:var(--bg)}
 
 section{margin-block:0 40px;scroll-margin-top:70px}
-.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px;margin-bottom:16px}
-.sec-head p{color:var(--fg-2);font-size:14px}
+section+section{border-top:1px solid var(--line);padding-top:28px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-bottom:10px}
+.sec-head>p{color:var(--fg-2);font-size:14px;margin-inline-start:auto}
+.sno{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--fg);color:var(--bg);font-family:var(--display);font-weight:800;font-size:20px}
+.sec-t{display:flex;flex-direction:column;gap:2px;min-width:0}
+.sec-t .eyebrow{letter-spacing:0}
+.sec-say{color:var(--fg-2);font-size:14.5px;max-width:80ch;margin-bottom:16px}
+.sub-step{display:flex;align-items:center;gap:10px;font-size:16px;margin:26px 0 12px}
+.sub-step b{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink);font-size:13px;font-weight:800}
+.sub-step small{font-family:var(--body);font-weight:400;font-size:12.5px;color:var(--fg-3)}
+.sec-say+.sub-step{margin-top:0}
+.sub-step+.card{margin-top:0!important}
+#wkDossiers>.dossier:first-child{margin-top:0}
+@media (max-width:640px){.sec-head>p{margin-inline-start:0;flex-basis:100%}}
 
 /* kpi tiles */
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
@@ -441,7 +455,7 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
     <div>
       <div class="eyebrow">صيت · تقرير أداء الربع الثالث 2026</div>
       <h1>لوحة أداء براندات صيت</h1>
-      <p class="lead">قراءة واحدة لإعلانات ميتا، متجر زد، حسابات إنستقرام، والخطط التسويقية لأونا ووكاد وبرواد ووكالة صيت. الأرقام مأخوذة من التقارير كما هي، والمشتقات محسوبة منها مباشرة.</p>
+      <p class="lead">قراءة واحدة لإعلانات ميتا، متجر زد، حسابات إنستقرام، والخطط التسويقية لأونا ووكاد وبرواد ووكالة صيت. المبيعات معروضة كنسب مئوية، وبقية الأرقام مأخوذة من التقارير كما هي.</p>
     </div>
     <div class="periods">
       <span class="chip"><span class="dot"></span> ميتا: <b>14 يوليو – 11 أكتوبر</b></span>
@@ -452,27 +466,35 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
   </header>
 
   <nav class="nav" id="nav">
-    <a href="#overview" class="active">نظرة عامة</a>
-    <a href="#meta">إعلانات ميتا</a>
-    <a href="#zid">متجر زد</a>
-    <a href="#summer">بوكسات الصيف</a>
-    <a href="#social">السوشيال ميديا</a>
-    <a href="#wekad">حملات وكاد</a>
-    <a href="#plans">الخطط والبراندات</a>
-    <a href="#insights">القراءة والتوصيات</a>
+    <a href="#overview" class="active"><i>1</i>الصورة العامة</a>
+    <a href="#meta"><i>2</i>إعلانات أونا</a>
+    <a href="#summer"><i>3</i>بوكسات الصيف</a>
+    <a href="#zid"><i>4</i>متجر أونا</a>
+    <a href="#social"><i>5</i>السوشيال ميديا</a>
+    <a href="#wekad"><i>6</i>حملات وكاد</a>
+    <a href="#plans"><i>7</i>الخطط القادمة</a>
+    <a href="#insights"><i>8</i>الخلاصة والتوصيات</a>
   </nav>
 
   <!-- ============ OVERVIEW ============ -->
   <section id="overview">
-    <div class="sec-head"><h2>المؤشرات الرئيسية</h2><p>ملخص البراندين قبل التفاصيل</p></div>
+    <div class="sec-head"><span class="sno num">1</span><div class="sec-t"><span class="eyebrow">أونا ووكاد</span><h2>الصورة العامة</h2></div><p>ملخص البراندين قبل التفاصيل</p></div>
+    <p class="sec-say">أهم ما تحقق للبراندين في لمحة واحدة، ثم ندخل في التفاصيل بالترتيب: أونا أولاً، ثم وكاد، ثم الخطط والخلاصة.</p>
     <div class="ov-brand"><h3>أونا · الربع الثالث</h3><div class="kpis" id="kpis"></div></div>
-    <div class="ov-brand"><h3>وكاد · الحملات الأربع</h3><div class="kpis" id="kpisWekad"></div></div>
+    <div class="ov-brand"><h3>وكاد · الحملات</h3><div class="kpis" id="kpisWekad"></div></div>
   </section>
 
   <!-- ============ META ============ -->
   <section id="meta">
-    <div class="sec-head"><h2>إعلانات ميتا · أونا</h2><p>7 حملات · آخر 90 يوماً</p></div>
-    <div class="grid-2">
+    <div class="sec-head"><span class="sno num">2</span><div class="sec-t"><span class="eyebrow">أونا · الوصول</span><h2>إعلانات ميتا</h2></div><p>7 حملات · آخر 90 يوماً</p></div>
+    <p class="sec-say">البداية من الوصول: سبع حملات على ميتا، متى أُطلقت، ماذا حققت كل واحدة، وأيها كان الأكفأ.</p>
+    <div class="card">
+      <div class="card-head"><div><h3>جدول زمني للإطلاق</h3><p>تواريخ إطلاق الحملات السبع، وحالتها الحالية</p></div></div>
+      <div class="timeline" id="timeline"><div class="rail"></div></div>
+      <div class="legend" style="margin-top:30px"><span><i style="background:var(--accent);border-radius:50%"></i> مكتمل</span><span><i style="background:var(--warn);border-radius:50%"></i> متوقف</span></div>
+    </div>
+
+    <div class="grid-2" style="margin-top:14px">
       <div class="card">
         <div class="card-head">
           <div><h3>مقارنة الحملات</h3><p>اختر المقياس لإعادة ترتيب الحملات</p></div>
@@ -491,12 +513,6 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
         <svg id="scatter" class="chart" role="img" aria-label="الإنفاق مقابل النتائج"></svg>
         <div class="legend"><span><i style="background:var(--accent)"></i> أعلى كفاءة</span><span><i style="background:var(--series-1);opacity:.6"></i> بقية الحملات</span></div>
       </div>
-    </div>
-
-    <div class="card" style="margin-top:14px">
-      <div class="card-head"><div><h3>جدول زمني للإطلاق</h3><p>تواريخ إطلاق الحملات السبع، وحالتها الحالية</p></div></div>
-      <div class="timeline" id="timeline"><div class="rail"></div></div>
-      <div class="legend" style="margin-top:30px"><span><i style="background:var(--accent);border-radius:50%"></i> مكتمل</span><span><i style="background:var(--warn);border-radius:50%"></i> متوقف</span></div>
     </div>
 
     <div class="card" style="margin-top:14px">
@@ -521,53 +537,10 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
     </div>
   </section>
 
-  <!-- ============ ZID ============ -->
-  <section id="zid">
-    <div class="sec-head"><h2>المتجر الإلكتروني · زد</h2><p>1 يوليو – 30 سبتمبر 2026</p></div>
-    <div class="kpis" id="zidKpis" style="margin-bottom:14px"></div>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-head"><div><h3>رحلة العميل</h3><p>من الزيارة إلى الشراء · الأعداد محسوبة من النسب</p></div></div>
-        <div class="funnel" id="funnel"></div>
-      </div>
-      <div class="card" style="display:flex;flex-direction:column;gap:18px">
-        <div>
-          <div class="card-head"><div><h3>مصادر الزيارات</h3><p>التقرير يحدد المباشر فقط</p></div></div>
-          <div class="meter"><i style="width:50%;background:var(--series-1)"></i><i style="width:50%;background:var(--muted-soft)"></i></div>
-          <div class="meter-lbl"><span><b>50%</b> زيارات مباشرة</span><span><b>50%</b> مصادر أخرى</span></div>
-          <p style="font-size:12.5px;color:var(--fg-3);margin-top:8px">نصف الزيارات تأتي بكتابة الرابط أو من روابط غير متتبعة. نسبة عالية تدل على قوة البراند أو على غياب وسوم UTM في روابط الإعلانات.</p>
-        </div>
-        <div>
-          <h3 style="margin-bottom:10px">مقاييس مشتقة</h3>
-          <div class="kpis" id="derived" style="grid-template-columns:repeat(3,1fr)"></div>
-        </div>
-      </div>
-    </div>
-    <div class="grid-3">
-      <div class="card">
-        <div class="card-head"><div><h3>أعلى المنتجات مبيعاً</h3><p>قيمة المبيعات بالريال · العدد المباع</p></div></div>
-        <div class="prod" id="topProducts"></div>
-      </div>
-      <div class="card">
-        <div class="card-head"><div><h3>أفضل المدن</h3><p>قيمة المبيعات · عدد الطلبات</p></div></div>
-        <div class="prod" id="topCities"></div>
-      </div>
-      <div class="card" style="display:flex;flex-direction:column;gap:16px">
-        <div>
-          <div class="card-head"><div><h3>حالة الطلبات</h3><p>من إجمالي 183 طلباً</p></div></div>
-          <div class="status-row" id="orderStatus"></div>
-        </div>
-        <div>
-          <div class="card-head" style="margin-bottom:6px"><div><h3>أفضل العملاء</h3><p>أعلى قيمة شراء في الربع</p></div></div>
-          <div class="tbl-wrap"><table class="sm" id="topCustomers"><thead><tr><th>العميل</th><th>الطلبات</th><th>المبيعات</th></tr></thead><tbody></tbody></table></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ============ SUMMER BOXES ============ -->
   <section id="summer">
-    <div class="sec-head"><h2>حملة بوكسات الصيف · أونا</h2><p>إعلانات ميتا ومتجر زد · مع تقييم الفريق</p></div>
+    <div class="sec-head"><span class="sno num">3</span><div class="sec-t"><span class="eyebrow">أونا · الحملة الرئيسية</span><h2>حملة بوكسات الصيف</h2></div><p>إعلانات ميتا ومتجر زد · مع تقييم الفريق</p></div>
+    <p class="sec-say">أكبر حملات أونا بالتفصيل: ما حققته، حصتها من حساب الإعلانات، وما تعلّمه الفريق منها.</p>
     <article class="dossier" style="--c:var(--accent);margin-top:0">
       <header class="dz-head">
         <div><div class="dz-no"><i></i>حملة أونا الرئيسية · انطلقت 11 أغسطس · مكتملة</div>
@@ -588,9 +561,55 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
     </article>
   </section>
 
+  <!-- ============ ZID ============ -->
+  <section id="zid">
+    <div class="sec-head"><span class="sno num">4</span><div class="sec-t"><span class="eyebrow">أونا · النتيجة</span><h2>المتجر الإلكتروني · زد</h2></div><p>1 يوليو – 30 سبتمبر 2026 · المبيعات كنسب</p></div>
+    <p class="sec-say">النتيجة في المتجر: نمو المبيعات والطلبات في سبتمبر، ثم رحلة العميل من الزيارة إلى الشراء، ثم ماذا يُباع وأين.</p>
+    <div class="kpis" id="zidKpis" style="margin-bottom:14px"></div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-head"><div><h3>رحلة العميل</h3><p>من الزيارة إلى الشراء · كل مرحلة كنسبة من إجمالي الزيارات</p></div></div>
+        <div class="funnel" id="funnel"></div>
+      </div>
+      <div class="card" style="display:flex;flex-direction:column;gap:18px">
+        <div>
+          <div class="card-head"><div><h3>مصادر الزيارات</h3><p>التقرير يحدد المباشر فقط</p></div></div>
+          <div class="meter"><i style="width:50%;background:var(--series-1)"></i><i style="width:50%;background:var(--muted-soft)"></i></div>
+          <div class="meter-lbl"><span><b>50%</b> زيارات مباشرة</span><span><b>50%</b> مصادر أخرى</span></div>
+          <p style="font-size:12.5px;color:var(--fg-3);margin-top:8px">نصف الزيارات تأتي بكتابة الرابط أو من روابط غير متتبعة. نسبة عالية تدل على قوة البراند أو على غياب وسوم UTM في روابط الإعلانات.</p>
+        </div>
+        <div>
+          <h3 style="margin-bottom:10px">مقاييس مشتقة</h3>
+          <div class="kpis" id="derived" style="grid-template-columns:repeat(3,1fr)"></div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-head"><div><h3>أعلى المنتجات مبيعاً</h3><p>حصة كل منتج من مبيعات المتجر</p></div></div>
+        <div class="prod" id="topProducts"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div><h3>أفضل المدن</h3><p>حصة كل مدينة من مبيعات المتجر</p></div></div>
+        <div class="prod" id="topCities"></div>
+      </div>
+      <div class="card" style="display:flex;flex-direction:column;gap:16px">
+        <div>
+          <div class="card-head"><div><h3>حالة الطلبات</h3><p>نسبة من إجمالي الطلبات</p></div></div>
+          <div class="status-row" id="orderStatus"></div>
+        </div>
+        <div>
+          <div class="card-head" style="margin-bottom:6px"><div><h3>أفضل العملاء</h3><p>حصة كل عميل من مبيعات الربع · الخمسة معاً أقل من 8%</p></div></div>
+          <div class="tbl-wrap"><table class="sm" id="topCustomers"><thead><tr><th>العميل</th><th>الحصة من المبيعات</th></tr></thead><tbody></tbody></table></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ SOCIAL ============ -->
   <section id="social">
-    <div class="sec-head"><h2>السوشيال ميديا · إنستقرام</h2><p>أونا 11 أغسطس – 10 أكتوبر · وكاد 12 يوليو – 10 أكتوبر</p></div>
+    <div class="sec-head"><span class="sno num">5</span><div class="sec-t"><span class="eyebrow">وكاد وأونا · الحسابات</span><h2>السوشيال ميديا · إنستقرام</h2></div><p>أونا 11 أغسطس – 10 أكتوبر · وكاد 12 يوليو – 10 أكتوبر</p></div>
+    <p class="sec-say">أداء حسابَي إنستقرام خلال الربع، والمقارنة بينهما، ومن هو جمهور وكاد قبل الدخول في حملاتها.</p>
     <div class="soc" id="socCards"></div>
     <div class="grid-2" style="margin-top:14px">
       <div class="card">
@@ -615,9 +634,12 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
 
   <!-- ============ WEKAD CAMPAIGNS ============ -->
   <section id="wekad">
-    <div class="sec-head"><h2>حملات وكاد</h2><p>أربع حملات · 15 يونيو – 11 أكتوبر · إنستقرام وتيك توك والمؤثرون</p></div>
+    <div class="sec-head"><span class="sno num">6</span><div class="sec-t"><span class="eyebrow">وكاد · الحملات</span><h2>حملات وكاد الأربع</h2></div><p>15 يونيو – 11 أكتوبر · إنستقرام وتيك توك والمؤثرون</p></div>
+    <p class="sec-say">أربع حملات لوكاد على ثلاث خطوات: لمحة سريعة عن كل حملة، ثم المقارنة بينها، ثم تفاصيل كل واحدة.</p>
+    <h3 class="sub-step"><b>أ</b>الحملات في لمحة</h3>
 
     <div class="sb" id="wkBoard"></div>
+    <h3 class="sub-step"><b>ب</b>المقارنة بين الحملات<small>تيك توك ثم إنستقرام</small></h3>
 
     <div class="card" style="margin-top:14px">
       <div class="card-head"><div><h3>نبض تيك توك عبر الحملات</h3><p>متوسط المشاهدات اليومي خلال كل حملة، مقابل الفترة التي سبقتها بنفس عدد الأيام</p></div></div>
@@ -627,23 +649,25 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
     </div>
 
     <div class="card" style="margin-top:14px">
-      <div class="card-head"><div><h3>وجهاً لوجه على تيك توك</h3><p>11 مقياساً · الخلية الملونة هي الأعلى في صفها · كأس العالم مقاسة على إنستقرام في الجدول الأخير</p></div></div>
+      <div class="card-head"><div><h3>وجهاً لوجه على تيك توك</h3><p>11 مقياساً · الخلية الملونة هي الأعلى في صفها · كأس العالم مقاسة على إنستقرام في الجدول التالي</p></div></div>
       <div class="scroll-x"><table class="vs" id="vsTable"></table></div>
     </div>
 
-    <div id="wkDossiers"></div>
-
-    <div class="card" style="margin-top:18px">
+    <div class="card" style="margin-top:14px">
       <div class="card-head"><div><h3>وجهاً لوجه على إنستقرام</h3><p>متوسط الريل الواحد · الخلية الملونة هي الأعلى في صفها</p></div></div>
       <div class="scroll-x"><table class="vs" id="igTable"></table></div>
       <p class="callout" style="margin-top:12px" id="igNote"></p>
       <p style="font-size:12.5px;color:var(--fg-3);margin-top:8px">ملفا «اليوم الوطني» و«افتتاح الفرع» على إنستقرام متطابقان لأنهما لقطة للحساب كاملاً في 11 سبتمبر – 11 أكتوبر، لذلك يظهران عموداً واحداً. «الأيام العادية» هي بقية ريلز الربع بعد طرح شهر الحملات.</p>
     </div>
+
+    <h3 class="sub-step"><b>ج</b>تفاصيل كل حملة<small>بالترتيب الزمني</small></h3>
+    <div id="wkDossiers"></div>
   </section>
 
   <!-- ============ PLANS ============ -->
   <section id="plans">
-    <div class="sec-head"><h2>الخطط التسويقية</h2><p>الحملات القادمة · ثم الخطط الأولية التي تغيّر أغلبها</p></div>
+    <div class="sec-head"><span class="sno num">7</span><div class="sec-t"><span class="eyebrow">القادم</span><h2>الخطط التسويقية</h2></div><p>الحملات القادمة · ثم الخطط الأولية التي تغيّر أغلبها</p></div>
+    <p class="sec-say">ما القادم: الحملات المقبلة أولاً، ثم الخطط التي بُني عليها العمل لكل براند.</p>
     <div class="card" style="margin-bottom:14px">
       <div class="card-head"><div><h3>الحملات القادمة</h3><p>بحسب مراجعة الفريق</p></div></div>
       <div class="upcoming">
@@ -704,7 +728,7 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
           <div class="pillar"><b>الكواليس</b>كواليس التصوير والمواقف الطريفة مع الفريق</div>
           <div class="pillar"><b>الترندات الذكية</b>استغلال الترند المناسب (مثل تفاعل عرض أبو مالح) للانتشار العضوي</div>
         </div>
-        <p style="font-size:12.5px;color:var(--fg-3)">هذه اللوحة نفسها مادة جاهزة لدراسة حالة: إنفاق 2,757 ر.س يقابله 21,878 ر.س مبيعات متجر و724 ألف مشاهدة.</p>
+        <p style="font-size:12.5px;color:var(--fg-3)">هذه اللوحة نفسها مادة جاهزة لدراسة حالة: 724 ألف مشاهدة إعلانية بإنفاق 2,757 ر.س، ونمو مبيعات المتجر 114% في سبتمبر.</p>
       </div>
     </div>
   </section>
@@ -713,13 +737,17 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
 
   <!-- (plans continued) -->
   <section id="insights">
-    <div class="sec-head"><h2>القراءة والتوصيات</h2><p>مستخلصة من الأرقام أعلاه</p></div>
+    <div class="sec-head"><span class="sno num">8</span><div class="sec-t"><span class="eyebrow">الخلاصة</span><h2>القراءة والتوصيات</h2></div><p>مستخلصة من الأرقام أعلاه</p></div>
+    <p class="sec-say">خلاصة كل ما سبق في نقاط: ما نجح، ما يحتاج معالجة، وما نوصي به لكل براند.</p>
     <div id="insightCards"></div>
     <div class="notes" style="margin-top:18px">
       <span><b>ملاحظات على البيانات:</b></span>
-      <span>• فترة ميتا (14 يوليو – 11 أكتوبر) لا تطابق فترة زد (1 يوليو – 30 سبتمبر)، لذلك نسبة المبيعات إلى الإنفاق مؤشر استرشادي وليست عائداً معزواً.</span>
+      <span>• المبيعات والطلبات معروضة كنسب مئوية (حصص من الإجمالي ونسب نمو) لا كأرقام مطلقة.</span>
+      <span>• نمو سبتمبر محسوب من تحليلات زد: مبيعات وطلبات سبتمبر مقابل المتوسط الشهري ليوليو وأغسطس.</span>
+      <span>• فترة ميتا (14 يوليو – 11 أكتوبر) لا تطابق فترة زد (1 يوليو – 30 سبتمبر)، لذلك لا يُنسب نمو المتجر للإعلانات وحدها.</span>
       <span>• حملة «اكتشف طعم القهوة» بلا نتائج مسجلة (N/A) فاستُبعدت من حساب تكلفة النتيجة ومن مخطط الكفاءة.</span>
-      <span>• أعداد مراحل رحلة العميل محسوبة من النسب المذكورة في التقرير بدءاً من 16,480 زيارة.</span>
+      <span>• مراحل رحلة العميل معروضة كنسب من إجمالي زيارات المتجر خلال الربع.</span>
+      <span>• نسب مبيعات وكاد من حملة «موقف قوّة» (21 – 24 أكتوبر): مبيعات الفرعين مقابل تارقت الأيام الأربعة، ومبيعات يوم العرض (الجمعة) مقابل متوسط الأيام الثلاثة الأخرى.</span>
       <span>• في تقرير أونا على إنستقرام عدد المشاهدين الفريدين (21K) أعلى من مشاهدات الريلز (11K) لأن الوصول يشمل المنشورات والستوري، لا الريلز فقط.</span>
       <span>• فترة تقرير أونا على إنستقرام (شهران) أقصر من فترة وكاد (ثلاثة أشهر)، لذلك المقارنة العادلة هي المعدلات لكل ريل لا الإجماليات.</span>
       <span>• ملفا إنستقرام «اليوم الوطني» و«افتتاح الفرع» متطابقان رقماً برقم لأنهما لقطة للحساب كاملاً في 11 سبتمبر – 11 أكتوبر، لذلك عُرضا كنافذة واحدة، وجاءت المقارنة بين الحملات من تيك توك.</span>
@@ -731,7 +759,7 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
     </div>
   </section>
 
-  <footer><span>صيت · وكالة تسويق</span><span>آخر تحديث للبيانات: 11 أكتوبر 2026</span></footer>
+  <footer><span>صيت · وكالة تسويق</span><span>آخر تحديث للبيانات: 24 أكتوبر 2026</span></footer>
 </div>
 <div class="tip" id="tip" role="status" aria-live="polite"></div>
 
@@ -748,11 +776,14 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
     {name:"من أونا.. لأهلنا", short:"من أونا لأهلنا", date:"2026-08-29", dlabel:"29 أغسطس", status:"off", views:44465, reach:26912, results:377, spend:125.19},
   ];
   camps.forEach(c=>{ c.cpr = c.results? c.spend/c.results : null; c.cpm = c.spend/(c.views/1000); c.freq = c.views/c.reach; });
-  const zid = {sales:21878, orders:183, sessions:16480, customers:162, direct:.5, f:[.128,.29,.531,.5631]};
-  const products=[["بوكس الثلاثي · TRIO BOX",129,13268],["ETHIO BOX",42,4796],["DEU BOX",7,693],["بوكس البحر · محاصيل إثيوبية فاخرة",3,687],["بوكس يوم الميلاد · محاصيل متنوعة",4,596]];
-  const cities2=[["الرياض",28,3341.5],["الدمام",24,2818.5],["الخبر",21,2617.5],["القطيف",12,1328.5],["المبرز",10,1120.5]];
-  const customers=[["عميل 1",4,381.5],["عميل 2",3,359],["عميل 3",3,345],["عميل 4",2,297],["عميل 5",2,250]];
-  const orderStatus=[["تم التوصيل",181,"good"],["جاري التوصيل",1,""],["تم الإلغاء",1,"warn"]];
+  // Store figures are percentages only: shares of the total and growth rates, no absolute sales, orders or visits.
+  // growth = September vs the July–August monthly average; cr/opc cover the whole quarter.
+  const zid = {cr:1.11, opc:1.13, top2:83, direct:.5, f:[.128,.29,.531,.5631],
+    growth:{sales:114, orders:158, crNow:2.71, crPrev:0.63, septShare:52}};
+  const products=[["بوكس الثلاثي · TRIO BOX",60.6],["ETHIO BOX",21.9],["DEU BOX",3.2],["بوكس البحر · محاصيل إثيوبية فاخرة",3.1],["بوكس يوم الميلاد · محاصيل متنوعة",2.7]];
+  const cities2=[["الرياض",15.3],["الدمام",12.9],["الخبر",12.0],["القطيف",6.1],["المبرز",5.1]];
+  const customers=[["عميل 1",1.7],["عميل 2",1.6],["عميل 3",1.6],["عميل 4",1.4],["عميل 5",1.1]];
+  const orderStatus=[["تم التوصيل",98.9,"good"],["جاري التوصيل",0.5,""],["تم الإلغاء",0.5,"warn"]];
   const inflCamp = {accounts:15, budget:20600, views:1112000, likes:19942, comments:695, shares:11844, saves:9147, date:"9 سبتمبر"};
   inflCamp.eng = inflCamp.likes+inflCamp.comments+inflCamp.shares+inflCamp.saves;
   inflCamp.cpv = inflCamp.budget/inflCamp.views; inflCamp.cpe = inflCamp.budget/inflCamp.eng;
@@ -784,10 +815,11 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
   const sum = (a,k)=> a.reduce((s,x)=> s+(x[k]||0),0);
   const tot = {spend:sum(camps,"spend"), views:sum(camps,"views"), reach:sum(camps,"reach"), results:sum(camps,"results")};
   tot.cpr = tot.spend/tot.results; tot.cpm = tot.spend/(tot.views/1000); tot.freq = tot.views/tot.reach;
-  const z = {aov: zid.sales/zid.orders, cr: zid.orders/zid.sessions, rps: zid.sales/zid.sessions, opc: zid.orders/zid.customers, roasIdx: zid.sales/tot.spend};
-  const fn = [zid.sessions];
-  zid.f.forEach(r=> fn.push(Math.round(fn[fn.length-1]*r)));
-  fn[4]=zid.orders; // the chain lands on 183 orders
+  const g = zid.growth;
+  const up = v=> `<bdi dir="ltr">+${v}%</bdi>`;
+  const fn = [100]; // each funnel stage as a share of all store visits
+  zid.f.forEach(r=> fn.push(fn[fn.length-1]*r));
+  fn[4]=zid.cr;
 
   const tip = document.getElementById("tip");
   function showTip(html, ev){
@@ -810,22 +842,22 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
   // ---------- KPIs ----------
   const kpiHTML = (l,v,unit,s,hero,bar)=> `<div class="kpi${hero?" hero-kpi":""}"><span class="l">${l}</span><span class="v num">${v}${unit?`<small>${unit}</small>`:""}</span>${s?`<span class="s">${s}</span>`:""}${bar!=null?`<div class="spark"><i style="width:${bar}%"></i></div>`:""}</div>`;
   document.getElementById("kpis").innerHTML = [
-    kpiHTML("مبيعات المتجر", fmt(zid.sales), "ر.س", "متجر زد · 1 يوليو – 30 سبتمبر", true),
+    kpiHTML("نمو مبيعات المتجر", up(g.sales), "", "سبتمبر مقابل متوسط يوليو–أغسطس", true),
+    kpiHTML("نمو طلبات المتجر", up(g.orders), "", "سبتمبر مقابل متوسط يوليو–أغسطس"),
     kpiHTML("إنفاق إعلانات ميتا", fmt(tot.spend,2), "ر.س", "7 حملات · آخر 90 يوماً"),
     kpiHTML("نتائج ميتا", fmt(tot.results), "", `تكلفة النتيجة ${tot.cpr.toFixed(2)} ر.س`),
-    kpiHTML("مبيعات ÷ إنفاق ميتا", z.roasIdx.toFixed(1)+"×", "", "مؤشر استرشادي غير معزو"),
   ].join("");
 
   document.getElementById("zidKpis").innerHTML = [
-    kpiHTML("الطلبات", fmt(zid.orders), "", "طلب", true),
-    kpiHTML("الجلسات", fmt(zid.sessions), "", "زيارة"),
-    kpiHTML("العملاء", fmt(zid.customers), "", "عميل"),
-    kpiHTML("متوسط قيمة الطلب", z.aov.toFixed(2), "ر.س"),
+    kpiHTML("نمو المبيعات", up(g.sales), "", "سبتمبر مقابل متوسط يوليو–أغسطس", true),
+    kpiHTML("نمو الطلبات", up(g.orders), "", "سبتمبر مقابل متوسط يوليو–أغسطس"),
+    kpiHTML("معدل التحويل في سبتمبر", g.crNow.toFixed(2), "%", `كان ${g.crPrev.toFixed(2)}% في يوليو–أغسطس · ${(g.crNow/g.crPrev).toFixed(1)}×`),
+    kpiHTML("حصة سبتمبر من مبيعات الربع", g.septShare, "%", "شهر واحد من ثلاثة", false, g.septShare),
   ].join("");
   document.getElementById("derived").innerHTML = [
-    kpiHTML("معدل التحويل", (z.cr*100).toFixed(2), "%"),
-    kpiHTML("طلبات لكل عميل", z.opc.toFixed(2), ""),
-    kpiHTML("إيراد لكل زيارة", z.rps.toFixed(2), "ر.س"),
+    kpiHTML("معدل التحويل للربع", zid.cr.toFixed(2), "%"),
+    kpiHTML("طلبات لكل عميل", zid.opc.toFixed(2), ""),
+    kpiHTML("حصة أعلى منتجين", zid.top2, "%"),
   ].join("");
 
   // ---------- Campaign bar chart ----------
@@ -951,11 +983,11 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
     fn.forEach((v,i)=>{
       // sqrt scale so the 1% tail stays visible; label carries the true number
       const w = Math.max(4, Math.sqrt(v/fn[0])*100);
-      html += `<div class="stage"><div class="name">${names[i][0]}<small>${names[i][1]}</small></div><div class="track"><div class="fill" style="width:${w}%;background:${cols[i]}" data-i="${i}"></div></div><div class="cnt num">${fmt(v)}</div></div>`;
+      html += `<div class="stage"><div class="name">${names[i][0]}<small>${names[i][1]}</small></div><div class="track"><div class="fill" style="width:${w}%;background:${cols[i]}" data-i="${i}"></div></div><div class="cnt num">${v>=100?"100":v.toFixed(v>=10?1:2)}%</div></div>`;
       if(i<4){ const r=zid.f[i]; html += `<div class="step"><div></div><div class="arrow${r===minRate?" low":""}">↓ <b>${(r*100).toFixed(r*100%1?2:0)}%</b> ${r===minRate?"· أضعف مرحلة":""}</div><div></div></div>`; }
     });
     f.innerHTML = html;
-    f.querySelectorAll(".fill").forEach(e=>{ const i=+e.dataset.i; const h=`<b>${names[i][0]}</b><br>${fmt(fn[i])} · ${(fn[i]/fn[0]*100).toFixed(2)}% من الزيارات`; e.addEventListener("mouseenter",ev=>showTip(h,ev)); e.addEventListener("mousemove",moveTip); e.addEventListener("mouseleave",hideTip); });
+    f.querySelectorAll(".fill").forEach(e=>{ const i=+e.dataset.i; const h=`<b>${names[i][0]}</b><br>${fn[i].toFixed(i?2:0)}% من إجمالي الزيارات`; e.addEventListener("mouseenter",ev=>showTip(h,ev)); e.addEventListener("mousemove",moveTip); e.addEventListener("mouseleave",hideTip); });
   })();
 
   // ---------- Summer boxes ----------
@@ -974,10 +1006,10 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
 
   // ---------- Zid detail ----------
   (function(){
-    const bars=(id,arr,unitA)=>{ const mx=Math.max(...arr.map(a=>a[2])); document.getElementById(id).innerHTML=arr.map(([n,c,v])=>`<div class="r"><span class="nm">${n}<small>${fmt(c)} ${unitA}</small></span><span class="n">${fmt(v,v%1?1:0)}<small> ر.س</small></span><div class="b"><i style="width:${v/mx*100}%"></i></div></div>`).join(""); };
-    bars("topProducts",products,"قطعة"); bars("topCities",cities2,"طلب");
-    document.getElementById("orderStatus").innerHTML = orderStatus.map(([l,v,c])=>`<div><span class="l">${l}</span><span class="v num" style="${c==="good"?"color:var(--good)":c==="warn"?"color:var(--warn)":""}">${fmt(v)}<small>${(v/zid.orders*100).toFixed(1)}%</small></span></div>`).join("");
-    document.querySelector("#topCustomers tbody").innerHTML = customers.map(([n,o,v])=>`<tr><td>${n}</td><td class="n">${o}</td><td class="n">${fmt(v,v%1?1:0)}</td></tr>`).join("");
+    const bars=(id,arr)=>{ const mx=Math.max(...arr.map(a=>a[1])); document.getElementById(id).innerHTML=arr.map(([n,v])=>`<div class="r"><span class="nm">${n}</span><span class="n">${v.toFixed(1)}<small>%</small></span><div class="b"><i style="width:${v/mx*100}%"></i></div></div>`).join(""); };
+    bars("topProducts",products); bars("topCities",cities2);
+    document.getElementById("orderStatus").innerHTML = orderStatus.map(([l,v,c])=>`<div><span class="l">${l}</span><span class="v num" style="${c==="good"?"color:var(--good)":c==="warn"?"color:var(--warn)":""}">${v.toFixed(1)}<small>%</small></span></div>`).join("");
+    document.querySelector("#topCustomers tbody").innerHTML = customers.map(([n,v])=>`<tr><td>${n}</td><td class="n">${v.toFixed(1)}%</td></tr>`).join("");
   })();
 
   // ---------- Wekad campaigns ----------
@@ -1291,6 +1323,9 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
     const all=wcViews+tkViews+igMonth+inflViews;
     document.getElementById("kpisWekad").innerHTML=[
       kpiHTML("مشاهدات موثقة", (all/1e6).toFixed(2)+"M", "", "إنستقرام وتيك توك والمؤثرون", true),
+      // Wekad sales as percentages only, from the «موقف قوّة» Friday offer (21–24 Oct, both branches)
+      kpiHTML("مبيعات يوم العرض", up(42.2), "", "حملة موقف قوّة · الجمعة مقابل متوسط باقي الأيام"),
+      kpiHTML("تحقيق تارقت المبيعات", "133.5", "%", "حملة موقف قوّة · الفرعان في 4 أيام"),
       kpiHTML("إنفاق موثق", fmt(inflCamp.budget), "ر.س", "المؤثرون فقط · الآيفونات غير مسعّرة"),
       kpiHTML("الحملات", "4", "", "كأس العالم · التشويق · الافتتاح · اليوم الوطني"),
     ].join("");
@@ -1369,14 +1404,15 @@ footer{margin-top:28px;font-size:12.5px;color:var(--fg-3);display:flex;justify-c
     const stageNames=["مشاهدة المنتج","الإضافة للسلة","تأكيد الطلب","إتمام الشراء"];
     const minI = zid.f.indexOf(Math.min(...zid.f));
     const cards=[
+      {c:"good",k:"نمو المتجر",t:`مبيعات سبتمبر ارتفعت ${g.sales}% عن متوسط يوليو–أغسطس`,d:`الطلبات ارتفعت ${g.orders}%، ومعدل التحويل صعد من ${g.crPrev}% إلى ${g.crNow}%. سبتمبر وحده صنع ${g.septShare}% من مبيعات الربع، بعد إطلاق حملات أغسطس وعروض اليوم الوطني.`},
       {c:"good",k:"أفضل كفاءة",t:`«${best.short}» بتكلفة ${best.cpr.toFixed(2)} ر.س للنتيجة`,d:`أرخص من متوسط الحساب (${tot.cpr.toFixed(2)} ر.س) بنسبة ${((1-best.cpr/tot.cpr)*100).toFixed(0)}%. رسالة البحر والقهوة تستحق إعادة التمويل بميزانية أعلى.`},
       {c:"warn",k:"أضعف كفاءة",t:`«${worst.short}» بتكلفة ${worst.cpr.toFixed(2)} ر.س للنتيجة`,d:`أعلى من المتوسط بنسبة ${((worst.cpr/tot.cpr-1)*100).toFixed(0)}%. رسالة الهدايا تحتاج إعادة صياغة أو جمهوراً مختلفاً قبل تكرارها.`},
-      {c:"warn",k:"عنق الزجاجة في المتجر",t:`${(zid.f[minI]*100).toFixed(1)}% فقط من الزيارات تشاهد منتجاً`,d:`بقية المراحل صحية (29% إلى السلة، 53% تأكيد، 56% إتمام). رفع مشاهدة المنتج إلى 20% يعني نحو ${fmt(Math.round(zid.sessions*.2*zid.f[1]*zid.f[2]*zid.f[3]))} طلب بدل ${zid.orders} بنفس الزيارات.`},
-      {c:"",k:"قيمة الطلب",t:`متوسط الطلب ${z.aov.toFixed(0)} ر.س · ${z.opc.toFixed(2)} طلب لكل عميل`,d:`تكرار الشراء منخفض: ${zid.customers} عميلاً أنتجوا ${zid.orders} طلباً. فرصة واضحة لبرنامج إعادة شراء على البن المحمص.`},
+      {c:"warn",k:"عنق الزجاجة في المتجر",t:`${(zid.f[minI]*100).toFixed(1)}% فقط من الزيارات تشاهد منتجاً`,d:`بقية المراحل صحية (29% إلى السلة، 53% تأكيد، 56% إتمام). رفع مشاهدة المنتج إلى 20% يعني زيادة الطلبات بنحو ${Math.round((.2/zid.f[0]-1)*100)}% بنفس الزيارات.`},
+      {c:"",k:"تكرار الشراء",t:`${zid.opc.toFixed(2)} طلب لكل عميل`,d:`تكرار الشراء منخفض: أغلب العملاء اشتروا مرة واحدة خلال الربع. فرصة واضحة لبرنامج إعادة شراء على البن المحمص.`},
       {c:"",k:"المصادر",t:"50% من الزيارات مباشرة",d:"إما قوة براند حقيقية أو غياب وسوم تتبع على روابط ميتا. أضف UTM لكل إعلان لمعرفة ما تدفعه الإعلانات فعلياً إلى المتجر."},
-      {c:"good",k:"المنتج البطل",t:`بوكس الثلاثي يصنع ${(13268/zid.sales*100).toFixed(0)}% من مبيعات المتجر`,d:`129 قطعة بقيمة 13,268 ر.س، ثم ETHIO BOX بـ ${(4796/zid.sales*100).toFixed(0)}%. المنتجان معاً أكثر من 80% من الإيراد؛ أي حملة قادمة للمتجر يجب أن تبدأ منهما، مع اختبار بوكس البحر لأن حملات البحر كانت الأكفأ إعلانياً.`},
-      {c:"",k:"جغرافيا المتجر",t:"الرياض أول مدينة في مبيعات أونا",d:`الرياض 28 طلباً بقيمة 3,342 ر.س، بينما المنطقة الشرقية (الدمام والخبر والقطيف والمبرز) مجتمعة ${fmt(24+21+12+10)} طلباً و${fmt(2818.5+2617.5+1328.5+1120.5,0)} ر.س. المتجر يفتح باباً خارج الشرقية لا تفتحه الفروع.`},
-      {c:"good",k:"جودة التشغيل",t:`${(181/zid.orders*100).toFixed(1)}% من الطلبات وصلت`,d:"طلب واحد ملغى وطلب واحد قيد التوصيل من 183. التشغيل ليس عائقاً؛ التحدي كله في أعلى القمع (مشاهدة المنتج) وفي تكرار الشراء."},
+      {c:"good",k:"المنتج البطل",t:`بوكس الثلاثي يصنع ${Math.round(products[0][1])}% من مبيعات المتجر`,d:`يليه ETHIO BOX بـ${Math.round(products[1][1])}%. المنتجان معاً أكثر من 80% من الإيراد؛ أي حملة قادمة للمتجر يجب أن تبدأ منهما، مع اختبار بوكس البحر لأن حملات البحر كانت الأكفأ إعلانياً.`},
+      {c:"",k:"جغرافيا المتجر",t:"الرياض أول مدينة في مبيعات أونا",d:`الرياض وحدها ${Math.round(cities2[0][1])}% من مبيعات المتجر، والمنطقة الشرقية (الدمام والخبر والقطيف والمبرز) مجتمعة ${Math.round(cities2.slice(1).reduce((s,c)=>s+c[1],0))}%. المتجر يفتح باباً خارج الشرقية لا تفتحه الفروع.`},
+      {c:"good",k:"جودة التشغيل",t:`${orderStatus[0][1].toFixed(1)}% من الطلبات وصلت`,d:"نسبة الإلغاء 0.5% فقط. التشغيل ليس عائقاً؛ التحدي كله في أعلى القمع (مشاهدة المنتج) وفي تكرار الشراء."},
       {c:"warn",k:"النمط عبر أربع حملات",t:"الفكرة تبيع، والجائزة وحدها لا تكفي، والقرار المتأخر يكلّف",d:"المقاطع وصلت لمشاهدات عالية بلا ترويج، و«صدى العز» حققت الانتشار والمبيعات بلا جوائز، بينما آيفونات كأس العالم صنعت حضوراً لم يتحول لمبيعات. والقاسم المشترك في كل الحملات: قرارات متأخرة وفرع غير جاهز للطلب. أول استثمار في الحملة القادمة هو إقفال القرارات مبكراً."},
       {c:"good",k:"قياس المؤثرين",t:"مؤثر واحد لمناسبة واحدة",d:"قرار الفريق: لقياس صدى المؤثر بدقة، يُخصَّص معلن واحد لمناسبة بسيطة، مثل جمعة محددة، ثم يُقاس أثره وحده. حملة الافتتاح جمعت 15 معلناً في يوم واحد، فلم يُعرف أثر كل واحد على المبيعات."},
       {c:"good",k:"وكاد على إنستقرام",t:`${fmt(Math.round(social.wekad.vpr))} مشاهدة لكل ريل · تفاعل ${(social.wekad.er*100).toFixed(1)}%`,d:`16 ريلز في ثلاثة أشهر أنتجت 113 ألف مشاهدة و${fmt(social.wekad.eng)} تفاعلاً. الوتيرة الأسبوعية هي ما يصنع الفرق، وجمهور 25–34 (53%) هو الجمهور الأساسي لأي حملة قادمة.`},
